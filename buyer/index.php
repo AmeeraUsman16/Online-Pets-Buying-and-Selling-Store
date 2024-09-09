@@ -58,6 +58,7 @@ if (isset($_POST['update-btn'])) {
                     <label for="floatingnumber">Number</label>
                 </div>
                 <div class="mb-0">
+                    
                     <button type="submit" name="update-btn" class="btn btn-dark p-3 px-5" style="border-radius: 27px;">Update</button>
                 </div>
             </form>      
