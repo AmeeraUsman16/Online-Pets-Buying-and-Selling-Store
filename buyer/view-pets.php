@@ -39,6 +39,7 @@ $id=$_SESSION['userid'];
                     <tr>
                         <th scope="row"><?php echo $count ?></th>
                         <td><?php echo $data['petType'] ?></td>
+                        <td><img src="../uploads/<?php echo $data['image'] ?>" alt=""></td>
                         <td><?php echo $data['description'] ?></td>
                     </tr>
                 </tbody>

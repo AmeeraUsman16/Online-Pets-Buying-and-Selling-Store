@@ -29,16 +29,20 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `tblpets` (
   `petID` int(11) NOT NULL,
-  `fksellID` int(11) NOT NULL,
+  `sellerId` int(11) NOT NULL,
   `petType` varchar(255) NOT NULL,
-  `description` text NOT NULL
+  `description` text NOT NULL,
+  `price` decimal(10, 2) NOT NULL,   -- New column for price
+  `image` varchar(255),              -- New column for image URL/path
+  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,  -- New column for creation timestamp
+  `breed` varchar(255)               -- New column for pet breed
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tblpets`
 --
 
-INSERT INTO `tblpets` (`petID`, `fksellID`, `petType`, `description`) VALUES
+INSERT INTO `tblpets` (`petID`, `sellerId`, `petType`, `description`) VALUES
 (1, 3, 'DOG', 'ABAB');
 
 -- --------------------------------------------------------

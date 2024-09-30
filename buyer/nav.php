@@ -9,9 +9,9 @@
         </button>
         <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link btn btn-outline-light rounded-pill px-4 py-2"  aria-current="page" href="index.php" style="color: white;">Login</a>
-                </li>
+                </li> -->
                 <li class="nav-item mx-3">
                     <a  class="nav-link btn btn-outline-light rounded-pill px-4 py-2" aria-current="page" href="view-pets.php" style="color: white;">View Pets</a>
                 </li>

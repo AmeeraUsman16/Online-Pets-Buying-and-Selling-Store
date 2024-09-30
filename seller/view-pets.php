@@ -32,7 +32,7 @@ $id=$_SESSION['userid'];
                     </tr>
                 </thead>
                 <?php
-                    $select="SELECT*FROM tblpets WHERE fksellID='$id'";
+                    $select="SELECT*FROM tblpets WHERE sellerId='$id'";
                     $run=mysqli_query($db,$select);
                     $count=0;
                     while ($data=mysqli_fetch_assoc($run)) {
