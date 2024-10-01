@@ -28,7 +28,7 @@ $id=$_SESSION['userid'];
                         <th scope="col">#</th>
                         <th scope="col">Pets Type</th>
                         <th scope="col">Description</th>
-                        <th scope="col">ACTION</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <?php

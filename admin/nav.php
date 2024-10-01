@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary" style="margin-top:-10px;">
     <div class="container-fluid" style="background-color: #0597a0;">
-        <a class="navbar-brand" href="#" style="background-color: #0597a0; color: white; font-weight: bold; padding:20px; border-radius: 5px;">
-            Online Pets Buying and Selling Store
+        <a class="navbar-brand" href="index.php" style="background-color: #0597a0; color: white; font-weight: bold; padding:20px; border-radius: 5px;">
+            Pet's Heaven
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"

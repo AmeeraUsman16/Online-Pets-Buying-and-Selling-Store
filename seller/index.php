@@ -1,73 +1,250 @@
 <?php
 session_start();
-require_once 'db.php';
-$id=$_SESSION['userid'];
-
-if (isset($_POST['update-btn'])) {
-    $name=$_POST['name'];
-    $email=$_POST['email'];
-    $number=$_POST['number'];
-    $update="UPDATE users SET name='$name', email='$email',number='$number'
-    WHERE uid='$id'";
-    $run=mysqli_query($db,$update);
-    if($run){
-        echo "<div class='alert alert-success mb-0 mt-3'>Account has been Update</div>";
-    }else{
-        echo "<div class='alert alert-danger mb-0 mt-3'>Something went wrong</div>";
-    }
-}
+$id = $_SESSION['userid'];
 ?>
 <!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LOGIN</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VIEW</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="../assets/css/index.css">
+  <style>
+    .pet-card-image {
+      width: 100%;
+      max-width: 300px;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    @media screen and (max-width: 580px) {
+      .pet-card-image {
+        max-width: none;
+      }
+    }
+
+    #myImg {
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .image-hover-effect {
+
+      transition: transform 0.3s ease-in-out;
+      /* Smooth transition effect */
+    }
+
+    .image-hover-effect:hover {
+      transform: scale(1.05);
+      /* Slightly increase the size on hover */
+    }
+
+
+
+    .btn-hover-effect {
+      background-color: black;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      transition: transform 0.3s ease-in-out;
+      /* Smooth transition effect */
+    }
+
+    .btn-hover-effect:hover {
+      transform: scale(1.05);
+      /* Slightly increase the size on hover */
+    }
+  </style>
 </head>
 
 <body>
-    <?php  require_once 'nav.php' //Include Navigation bar?>
-    <div class="container mt-5">
-        <?php 
-        $select="SELECT*FROM users WHERE uid='$id'";
-        $run=mysqli_query($db,$select);
-        while ($data=mysqli_fetch_assoc($run)) { ?>
-        <div class="container mt-5">
-            <form action="" method="post">
-                <div class="form-floating mb-3">
-                    <input type="text" name="name" value="<?php echo $data['name'] ?>" class="form-control" id="floatingInputUsername"
-                        placeholder="Your Name" required style="border: none; border-bottom: 1px solid #000; border-radius:0;width:700px;">
-                    <label for="floatingInputUsername">Your name</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="email" name="email" value="<?php echo $data['email'] ?>" class="form-control" id="floatingInput"
-                        placeholder="name@example.com" required style="border: none; border-bottom: 1px solid #000; border-radius:0;width:700px;">
-                    <label for="floatingInput">Email address</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="password" name="password" value="<?php echo $data['password'] ?>" class="form-control" id="floatingPassword"
-                        placeholder="Password" required style="border: none; border-bottom: 1px solid #000; border-radius:0;width:700px;">
-                    <label for="floatingPassword">Password</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="number" name="number" value="<?php echo $data['number'] ?>"  class="form-control" id="floatingnumber" placeholder="Number"
-                        required style="border: none; border-bottom: 1px solid #000; border-radius:0;width:700px;">
-                    <label for="floatingnumber">Number</label>
-                </div>
-                <div class="mb-0">
-                    <button type="submit" name="update-btn" class="btn btn-dark p-3 px-5" style="border-radius: 27px;">UPDATE</button>
-                </div>
-            </form>      
-        </div>
-        <?php } ?>
-    </div>
+  <?php
+  require_once 'nav.php';
+  require_once 'db.php';
+  ?>
+  <img class="w-100" src="../assets/images/animals-pets-banner.jpg" alt="">
+  <div class="container">
+    <h1 class="fw-bold text-center mt-5 mb-3">Meet Your Next Best Friend</h1>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+  <div class="container">
+    <div class="row">
+      <?php
+      $select = "SELECT*FROM tblpets";
+      $run = mysqli_query($db, $select);
+      $count = 0;
+      while ($data = mysqli_fetch_assoc($run)) {
+        $count++;
+        ?>
+
+
+
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"> <!-- Change the column size as needed -->
+          <div class="card">
+            <img class="card-img-top pet-card-image" src="../uploads/<?php echo $data['image']; ?>" alt="Pets_image">
+            <div class="card-body">
+              <div class="d-flex justify-content-between  align-items-center"> <!-- Flex container -->
+                <strong class="card-title"><?php echo $data['petType']; ?></strong>
+                <strong class="card-title"><?php echo $data['price']; ?></strong>
+              </div>
+              <p class="card-text"><?php echo $data['breed']; ?></p>
+              <!-- <p class="card-text"><?php echo $data['description']; ?></p> -->
+              <a href="#" class="btn btn-primary">Buy</a>
+              <a href="#" class="btn btn-primary">Add to Cart</a>
+            </div>
+          </div>
+
+        </div>
+
+      <?php } ?>
+
+
+    </div>
+  </div>
+
+
+  <div class="container d-flex justify-content-between">
+    <div class="row">
+      <div class="col-6">
+        <img id="myImg" src="../assets/images/dog.webp" alt="pet_dog" class="w-100 image-hover-effect">
+      </div>
+      <div class="col-6 ps-5">
+        <h3 class="fs-2 fw-medium">Pets for Any Need</h3>
+        <p class="fs-6 text-gray">We take great satisfaction in offering a broad and diverse range of products to meet
+          your pet's specific requirements, making it your go-to source for pet supplies near
+          you. Our Online Pet Supplies Store in Pakistan has everything you need, whether you have an
+          aquatic friend, a curious dog, a restless bird,
+          or a warm pet. We provide everything you need, from pet treats
+          and treats to bright colors and comfortable bedding.</p>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Remove the container if you want to extend the Footer to full width. -->
+
+  <!-- Footer -->
+  <footer class="text-center text-white" style="background-color: #0597a0">
+    <!-- Grid container -->
+    <div class="container">
+      <!-- Section: Links -->
+      <section class="mt-5">
+        <!-- Grid row-->
+        <div class="row text-center d-flex justify-content-center pt-5">
+          <!-- Grid column -->
+          <div class="col-md-2">
+            <h6 class="text-uppercase font-weight-bold">
+              <a href="#!" class="text-white">About us</a>
+            </h6>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-2">
+            <h6 class="text-uppercase font-weight-bold">
+              <a href="#!" class="text-white">Products</a>
+            </h6>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-2">
+            <h6 class="text-uppercase font-weight-bold">
+              <a href="#!" class="text-white">Awards</a>
+            </h6>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-2">
+            <h6 class="text-uppercase font-weight-bold">
+              <a href="#!" class="text-white">Help</a>
+            </h6>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-2">
+            <h6 class="text-uppercase font-weight-bold">
+              <a href="#!" class="text-white">Contact</a>
+            </h6>
+          </div>
+          <!-- Grid column -->
+        </div>
+        <!-- Grid row-->
+      </section>
+      <!-- Section: Links -->
+
+      <hr class="my-5" />
+
+      <!-- Section: Text -->
+      <section class="mb-5">
+        <div class="row d-flex justify-content-center">
+          <div class="col-lg-8">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
+              distinctio earum repellat quaerat voluptatibus placeat nam,
+              commodi optio pariatur est quia magnam eum harum corrupti
+              dicta, aliquam sequi voluptate quas.
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- Section: Text -->
+
+      <!-- Section: Social -->
+      <section class="text-center mb-5">
+        <a href="" class="text-white me-4">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="" class="text-white me-4">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="" class="text-white me-4">
+          <i class="fab fa-google"></i>
+        </a>
+        <a href="" class="text-white me-4">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="" class="text-white me-4">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="" class="text-white me-4">
+          <i class="fab fa-github"></i>
+        </a>
+      </section>
+      <!-- Section: Social -->
+    </div>
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+      © 2020 Copyright:
+      <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!-- Footer -->
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
+
 </body>
 
 </html>
