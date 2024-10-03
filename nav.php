@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary" style="margin-top:-10px">
-    <div class="container-fluid" style="background-color: #0597a0;">
+    <div class="container-fluid" style="background-color:white;">
         <!-- Header (brand name) with sky blue background -->
-        <a class="navbar-brand" href="index.php" style="background-color: #0597a0; color: white; font-weight: bold; padding:20px; border-radius: 5px;">
+        <a class="navbar-brand" href="index.php" style="background-color: white; color: white; font-weight: bold; padding:20px; border-radius: 5px;">
             Pet's Heaven
         </a>
 

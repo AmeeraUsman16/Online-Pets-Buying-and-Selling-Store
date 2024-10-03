@@ -64,7 +64,7 @@ if (isset($_POST['add-btn'])) {
                     <input required="true" type="text" name="petType" class="form-control" id="floatingInputType"
                         style="border: none; border: 1px solid #cdcdcd; border-radius:8px;width:700px;"
                         placeholder="Type" required>
-                    <label for="floatingInputType">Type</label>
+                    <label for="floatingInputType">Name</label>
                 </div>
                 <div class="form-floating mb-3">
                     <input required="true" type="text" name="description" class="form-control"

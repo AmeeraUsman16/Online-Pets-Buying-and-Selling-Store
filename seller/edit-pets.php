@@ -1,18 +1,34 @@
 <?php
 session_start();
 require_once 'db.php';
-$id=$_GET['petID'];
+$id = $_GET['petID']; // Get the petID from the URL
 
+// Check if the form has been submitted
 if (isset($_POST['update-btn'])) {
-    $petType=$_POST['petType'];
-    $description=$_POST['description'];
-    $update="UPDATE tblpets SET petType='$petType', description='$description'
-    WHERE petID='$id'";
-    $run=mysqli_query($db,$update);
-    if($run){
-        echo "<div class='alert alert-success mb-0 mt-3'>Pets Updatte Successfully</div>";
-    }else{
-        echo "<div class='alert alert-danger mb-0 mt-3'>Something went wrong</div>";
+    $petType = $_POST['petType'];
+    $description = $_POST['description'];
+    $price = $_POST['price'];
+    $breed = $_POST['breed'];
+
+    // Handle file upload if a new image is uploaded
+    if (isset($_FILES['image']) && $_FILES['image']['name'] != '') {
+        $image = $_FILES['image']['name'];
+        $image_tmp = $_FILES['image']['tmp_name'];
+        move_uploaded_file($image_tmp, "../uploads/" . $image);
+
+        // Update query including image update
+        $update = "UPDATE tblpets SET petType='$petType', description='$description', price='$price', breed='$breed', image='$image' WHERE petID='$id'";
+    } else {
+        // Update query without changing the image
+        $update = "UPDATE tblpets SET petType='$petType', description='$description', price='$price', breed='$breed' WHERE petID='$id'";
+    }
+
+    // Run the update query
+    $run = mysqli_query($db, $update);
+    if ($run) {
+        echo "<div class='alert alert-success mb-0 mt-3'>Pets Updated Successfully</div>";
+    } else {
+        echo "<div class='alert alert-danger mb-0 mt-3'>Error: " . mysqli_error($db) . "</div>";
     }
 }
 ?>
@@ -22,32 +38,61 @@ if (isset($_POST['update-btn'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LOGIN</title>
+    <title>Update Pet</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
 <body>
-    <?php  require_once 'nav.php' //Include Navigation bar?>
+    <?php require_once 'nav.php'; //Include Navigation bar ?>
+    
     <div class="container mt-5">
         <?php
-        $select="SELECT*FROM tblpets WHERE petID='$id'";
-        $run=mysqli_query($db,$select);
-        while ($data=mysqli_fetch_assoc($run)) { ?>
+        // Fetch the pet details from the database
+        $select = "SELECT * FROM tblpets WHERE petID='$id'";
+        $run = mysqli_query($db, $select);
+        while ($data = mysqli_fetch_assoc($run)) { ?>
         <div class="container mt-5">
-            <form action="" method="post">
+            <!-- Form for updating pet details -->
+            <form action="" method="post" enctype="multipart/form-data">
                 <div class="form-floating mb-3">
-                    <input type="text" name="petType"  value="<?php echo $data['petType'] ?>"  class="form-control" id="floatingInputUsername"
-                        placeholder="Your Name" required style="border: none; border-bottom: 1px solid #000; border-radius:0;width:700px;" >
-                    <label for="floatingInputUsername">Your name</label>
+                    <input type="text" name="petType" value="<?php echo $data['petType'] ?>" class="form-control"
+                        id="floatingInputUsername" placeholder="Pet Type" required
+                        style="border: none; border-bottom: 1px solid #000; border-radius:0; width:700px;">
+                    <label for="floatingInputUsername">Pet Type</label>
                 </div>
+
                 <div class="form-floating mb-3">
-                    <input type="text" name="description" value="<?php echo $data['description'] ?>" class="form-control" id="floatingInput"
-                        placeholder="name@example.com" required style="border: none; border-bottom: 1px solid #000; border-radius:0;width:700px;" >
-                    <label for="floatingInput">Description</label>
+                    <input type="text" name="description" value="<?php echo $data['description'] ?>" class="form-control"
+                        id="floatingInputDescription" placeholder="Description" required
+                        style="border: none; border-bottom: 1px solid #000; border-radius:0; width:700px;">
+                    <label for="floatingInputDescription">Description</label>
                 </div>
+
+                <div class="form-floating mb-3">
+                    <input type="number" name="price" value="<?php echo $data['price'] ?>" class="form-control"
+                        id="floatingInputPrice" placeholder="Price" required
+                        style="border: none; border-bottom: 1px solid #000; border-radius:0; width:700px;">
+                    <label for="floatingInputPrice">Price</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="file" name="image" class="form-control pt-3" id="floatingInputImage"
+                        style="border: none; border-bottom: 1px solid #000; border-radius:0; width:700px;"
+                        accept="image/*">
+                    
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="text" name="breed" value="<?php echo $data['breed'] ?>" class="form-control"
+                        id="floatingInputBreed" placeholder="Breed" required
+                        style="border: none; border-bottom: 1px solid #000; border-radius:0; width:700px;">
+                    <label for="floatingInputBreed">Breed</label>
+                </div>
+
                 <div class="mb-0">
-                    <button type="submit" name="update-btn" class="btn btn-dark p-3 px-5" style="border-radius: 27px;">UPDATE</button>
+                    <button type="submit" name="update-btn" class="btn btn-dark p-3 px-5"
+                        style="border-radius: 27px;">UPDATE</button>
                 </div>
             </form>
         </div>
