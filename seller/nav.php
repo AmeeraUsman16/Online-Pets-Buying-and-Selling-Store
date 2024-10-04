@@ -28,23 +28,30 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 </li>
                 <li class="nav-item">
                     <a class="nav-link fs-accent px-4 py-2 <?= ($current_page == 'logout.php') ? 'underline active' : '' ?>"
-                        href="logout.php">Logout</a>
+                        href="logout.php">Logout
+                        
+                    </a>
                 </li>
+               
+              
+                
+                    <div class="cart-container" style="position: relative;margin-top:10px">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"  viewBox="0 0 24 24" fill="none" 
+       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+       class="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" 
+       r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+  <span id="cart-badge" class="badge" style="position: absolute; top: -5px;
+   right: -10px; background-color: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px;">0</span>
+</div>
+
+
+
+
             </ul>
         </div>
     </div>
 </nav>
 
 
-<!-- <style>
-    .navbar-nav .nav-link {
-        color: white !important;
-        transition: color 0.3s ease; /* Smooth transition for color change */
-    }
 
-    .navbar-nav .nav-link:hover {
-        color: black !important;
-    }
 
-    
-</style> -->

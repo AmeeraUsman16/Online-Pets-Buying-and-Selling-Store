@@ -59,8 +59,8 @@ $id = $_SESSION['userid'];
                             </div>
                             <p class="card-text"><?php echo $data['breed']; ?></p>
                             <!-- <p class="card-text"><?php echo $data['description']; ?></p> -->
-                            <a href="#" class="btn btn-primary">Buy</a>
-                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                           
+                            <a href="cart-pets.php" class="btn btn-primary">Add to Cart</a>
                         </div>
                     </div>
 

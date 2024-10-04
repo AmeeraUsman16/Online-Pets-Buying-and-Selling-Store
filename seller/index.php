@@ -1,6 +1,7 @@
-<?php
+<a?php
 session_start();
 $id = $_SESSION['userid'];
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -143,7 +144,7 @@ $id = $_SESSION['userid'];
               <!-- <p class="card-text"><?php echo $data['description']; ?></p> -->
               <!-- <a href="#" class="button-39" role="button" style="margin-left:50px;">Buy</a> -->
               <div class="d-flex justify-content-end">
-                <button class="button-39 py-2.5 mt-0 border-0 text-gray" role="button">Add to Cart</button>
+                <button   class="button-39 py-2.5 mt-0 border-0 text-gray" role="button">Add to Cart</button>
               </div>
             </div>
           </div>
@@ -309,6 +310,8 @@ $id = $_SESSION['userid'];
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+
+
     </script>
 
 </body>
