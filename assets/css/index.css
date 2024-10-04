@@ -1,7 +1,41 @@
 * {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .text-gray {
   color: #636363;
+}
+
+.text-grayv1 {
+  color: #4f4f4f;
+}
+
+.max-w-fit {
+  max-width: fit-content;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.underline {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.fs-7 {
+  font-size: 0.8rem;
+}
+
+.fs-accent {
+  font-size: 0.9rem;
+}
+
+.text-accent {
+  color: #ff6f61;
+}
+
+.bg-grayv1 {
+  background-color: #f3f1f1;
 }

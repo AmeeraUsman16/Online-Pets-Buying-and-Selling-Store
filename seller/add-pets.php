@@ -13,22 +13,22 @@ if (isset($_POST['add-btn'])) {
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         // Define the directory to store the uploaded files
         $targetDir = "../uploads/";
-        
+
         // Get the file extension
         $fileExt = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-        
+
         // Create a unique name for the uploaded file
         $fileName = uniqid() . "." . $fileExt;
-        
+
         // Set the full file path
         $targetFile = $targetDir . $fileName;
-        
+
         // Move the uploaded file to the uploads directory
         if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
             // File uploaded successfully, insert record into the database
             $insert = "INSERT INTO tblpets (sellerId, petType, description, price, image, breed) 
                        VALUES ('$uid', '$petType', '$description', '$price', '$fileName', '$breed')";
-            
+
             $run = mysqli_query($db, $insert);
             if ($run) {
                 echo "<div class='alert alert-success mb-0 mt-3'>Pet Added Successfully</div>";
@@ -52,6 +52,8 @@ if (isset($_POST['add-btn'])) {
     <title>Add Pet</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="../assets/css/index.css">
+
 </head>
 
 <body>
@@ -83,8 +85,8 @@ if (isset($_POST['add-btn'])) {
                 <div class="form-floating pt-0 mb-3">
                     <!-- Change this input to accept file uploads -->
                     <input type="file" name="image" class="form-control pt-3" id="floatingInputImage"
-                    style="border: none; border: 1px solid #cdcdcd; border-radius:8px;width:700px;"
-                        accept="image/*" required>
+                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px;width:700px;" accept="image/*"
+                        required>
                     <!-- <label for="floatingInputImage">Upload Image</label> -->
                 </div>
                 <div class="form-floating mb-3">
@@ -100,7 +102,7 @@ if (isset($_POST['add-btn'])) {
             </form>
         </div>
     </div>
-</script>
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
