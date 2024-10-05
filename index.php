@@ -38,28 +38,46 @@ if(isset($_POST['login-btn'])){
     <title>LOGIN</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+
+        <style>
+.div-form{
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    
+}
+
+
+        </style>
 </head>
 
 <body>
     <?php  require_once 'nav.php' //Include Navigation bar?>
-    <div class="container mt-5">
-        <form action="" method="post">
-            <div class="form-floating mb-3">
-                <input type="email" name="email" class="form-control " id="floatingInput" placeholder="name@example.com" style="border: none; border-bottom: 1px solid #000; border-radius:0;width:700px;" 
-                    required >
-                <label for="floatingInput">Email address</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" style="border: none; border-bottom: 1px solid #000; border-radius:0;width:700px;" 
-                    required>
-                <label for="floatingPassword">Password</label>
-            </div>
-            <div class="mb-0">
-                <button type="submit" name="login-btn" class="btn btn-dark p-3 px-5" style="border-radius: 27px;">Login</button>
-            </div>
-        </form>
+    <div class="container mt-20 " style="margin-bottom:150px;margin-top:130px;">
+        <div class="container mt-5 div-form">
+            <!-- Add enctype="multipart/form-data" to enable file uploads -->
+            <form action="" method="post" enctype="multipart/form-data" >
+                <div class="form-floating mb-3">
+                    <input type="email" name="email" class="form-control " id="floatingInput" placeholder="name@example.com" required 
+                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px;width:700px;">
+                    <label for="floatingInputType">Email </label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required
+                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px;width:700px;" >
+                    <label for="floatingPassword">Password</label>
+                </div>
+             
+                <div class="mb-0">
+                    <button type="submit" name="login-btn" style="background: #FF6F61" class="btn text-white py-2 px-5"
+                        style="border-radius: 8px;">Login</button>
+                </div>
+            </form>
+        </div>
     </div>
 
+    <?php require_once 'footer.php'; //Include Footer ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
