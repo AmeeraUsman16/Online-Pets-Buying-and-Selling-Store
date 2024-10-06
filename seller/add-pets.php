@@ -154,7 +154,7 @@ if (isset($_POST['add-btn'])) {
                 </div>
                 <div class="mb-0">
                     <!-- <button class="button-30" role="button" >Add</button> -->
-                    <button type="submit" name="login-btn" style="background: #FF6F61" class="btn text-white py-2 px-5 button-30"
+                    <button type="submit"  name="add-btn" style="background: #FF6F61" class="btn text-white py-2 px-5 button-30"
                         style="border-radius: 8px;">Add</button>
                   
                 </div>
