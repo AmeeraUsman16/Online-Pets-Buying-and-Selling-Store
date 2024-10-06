@@ -128,9 +128,6 @@ $id = $_SESSION['userid'];
       while ($data = mysqli_fetch_assoc($run)) {
         $count++;
         ?>
-
-
-
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"> <!-- Change the column size as needed -->
           <div class="card border-0 pb-1" style="background-color:#fff3e8">
             <img class="card-img-top pet-card-image" src="../uploads/<?php echo $data['image']; ?>" alt="Pets_image">
@@ -144,16 +141,18 @@ $id = $_SESSION['userid'];
               <!-- <p class="card-text"><?php echo $data['description']; ?></p> -->
               <!-- <a href="#" class="button-39" role="button" style="margin-left:50px;">Buy</a> -->
               <div class="d-flex justify-content-end">
-                <button   class="button-39 py-2.5 mt-0 border-0 text-gray" role="button">Add to Cart</button>
+                <button class="button-39 py-2.5 mt-0 border-0 text-gray add-to-cart-btn"
+                  data-id="<?php echo $data['petID']; ?>" data-pet-type="<?php echo $data['petType']; ?>"
+                  data-price="<?php echo $data['price']; ?>" data-breed="<?php echo $data['breed']; ?>"
+                  data-image="<?php echo $data['image']; ?>">
+                  Add to Cart
+                </button>
               </div>
             </div>
           </div>
 
         </div>
-
       <?php } ?>
-
-
     </div>
   </div>
 
@@ -201,14 +200,99 @@ $id = $_SESSION['userid'];
   </div>
 
 
-  <?php require_once 'footer.php'; //Include Foot ?>
+  <?php require_once '../footer.php'; //Include Foot ?>
 
 
+  <!-- CART NOTIFICATION -->
+
+  <div id="success-alert" class="alert alert-success align-items-center gap-2 fs-7 position-fixed font-thin border-0"
+    role="alert" style="display: none; bottom:20px; right:20px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check">
+      <circle cx="12" cy="12" r="10" />
+      <path d="m9 12 2 2 4-4" />
+    </svg> Pet added to cart successfully
+  </div>
+  <div id="error-alert" class="alert alert-danger align-items-center gap-2 fs-7 position-fixed font-thin border-0"
+    role="alert" style="display: none; bottom:20px; right:20px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-octagon-alert">
+      <path d="M12 16h.01" />
+      <path d="M12 8v4" />
+      <path
+        d="M15.312 2a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586l-4.688-4.688A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2z" />
+    </svg> Pet is already in the cart!
+  </div>
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
 </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const cartButtons = document.querySelectorAll('.add-to-cart-btn');
+      const cartBadge = document.getElementById('cart-badge');
+      const successAlert = document.getElementById('success-alert');
+      const errorAlert = document.getElementById('error-alert');
+
+      function updateCartCount() {
+        const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+        cartBadge.textContent = cart.length; // Update badge count with the number of items
+      }
+
+      // Update cart count on page load
+
+      cartButtons.forEach(button => {
+        button.addEventListener('click', function () {
+          const petId = this.getAttribute('data-id');
+          const petType = this.getAttribute('data-pet-type');
+          const price = this.getAttribute('data-price');
+          const breed = this.getAttribute('data-breed');
+          const image = this.getAttribute('data-image');
+
+          const pet = {
+            id: petId,
+            type: petType,
+            price: price,
+            breed: breed,
+            image
+          };
+
+          // Get existing cart items from localStorage
+          let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+
+          // Check if the pet is already in the cart
+          const petExists = cart.find(item => item.id === petId);
+
+          if (!petExists) {
+            // Add the new pet to the cart
+            cart.push(pet);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount()
+
+            // Show success notification
+            showNotification('success');
+          } else {
+            // Show error notification
+            showNotification('error');
+          }
+        });
+      });
+
+      // Function to show and hide notifications
+      function showNotification(type) {
+        const alert = type === 'success' ? successAlert : errorAlert;
+
+        alert.style.display = 'flex';  // Show the alert
+
+        // Hide the alert after 3 seconds
+        setTimeout(() => {
+          alert.style.display = 'none';
+        }, 3000);
+      }
+    });
+  </script>
 
 </body>
 

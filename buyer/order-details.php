@@ -2,47 +2,8 @@
 session_start();
 require_once 'db.php';
 $uid = $_SESSION['userid'];
-
-if (isset($_POST['add-btn'])) {
-    $petType = $_POST['petType'];
-    $description = $_POST['description'];
-    $price = $_POST['price'];
-    $breed = $_POST['breed'];
-
-    // Handle file upload
-    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        // Define the directory to store the uploaded files
-        $targetDir = "../uploads/";
-
-        // Get the file extension
-        $fileExt = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-
-        // Create a unique name for the uploaded file
-        $fileName = uniqid() . "." . $fileExt;
-
-        // Set the full file path
-        $targetFile = $targetDir . $fileName;
-
-        // Move the uploaded file to the uploads directory
-        if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
-            // File uploaded successfully, insert record into the database
-            $insert = "INSERT INTO tblpets (sellerId, petType, description, price, image, breed) 
-                       VALUES ('$uid', '$petType', '$description', '$price', '$fileName', '$breed')";
-
-            $run = mysqli_query($db, $insert);
-            if ($run) {
-                echo "<div class='alert alert-success mb-0 mt-3'>Pet Added Successfully</div>";
-            } else {
-                echo "<div class='alert alert-danger mb-0 mt-3'>Something went wrong</div>";
-            }
-        } else {
-            echo "<div class='alert alert-danger mb-0 mt-3'>Error uploading file</div>";
-        }
-    } else {
-        echo "<div class='alert alert-danger mb-0 mt-3'>Please upload a valid image</div>";
-    }
-}
 ?>
+
 <!doctype html>
 <html lang="en">
 
@@ -55,6 +16,7 @@ if (isset($_POST['add-btn'])) {
     <link rel="stylesheet" href="../assets/css/index.css">
 
     <style>
+        /* Styling for the Proceed button */
         .button-30 {
             align-items: center;
             appearance: none;
@@ -100,10 +62,10 @@ if (isset($_POST['add-btn'])) {
             transform: translateY(2px);
         }
 
-        .div-form{
-    display:flex;
-    justify-content: center;
-    align-items:center;
+        .div-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 
@@ -112,48 +74,110 @@ if (isset($_POST['add-btn'])) {
 <body>
     <?php require_once 'nav.php'; //Include Navigation bar ?>
     <div class="container mt-5" style="margin-bottom:70px">
+        <h1 class="fw-bold text-grayv1 fs-2 text-center mt-5 mb-4">Order Details</h1>
+
         <div class="container mt-5 div-form">
-            <!-- Add enctype="multipart/form-data" to enable file uploads -->
-            <form action="" method="post" enctype="multipart/form-data" class="text-secondary">
+            <form id="orderForm" action="" method="post" enctype="multipart/form-data">
                 <div class="form-floating mb-3">
-                    <input required="true" type="text" name="petType" class="form-control" id="floatingInputType"
+                    <input required="true" type="text" name="fullname" class="form-control" id="fullname"
                         style="border: none; border: 1px solid #cdcdcd; border-radius:8px;width:700px;"
                         placeholder="Full Name" required>
-                    <label for="floatingInputType">Full Name</label>
+                    <label for="fullname">Full Name</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input required="true" type="text" name="description" class="form-control"
-                        id="floatingInputDescription"
+                    <input required="true" type="text" name="address" class="form-control" id="address"
                         style="border: none; border: 1px solid #cdcdcd; border-radius:8px;width:700px;"
                         placeholder="Address" required>
-                    <label for="floatingInputDescription">Address</label>
+                    <label for="address">Address</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input required="true" type="text" name="breed" class="form-control" id="floatingInputBreed"
+                    <input required="true" type="text" name="postalcode" class="form-control" id="postalcode"
                         style="border: none; border: 1px solid #cdcdcd; border-radius:8px;width:700px;"
-                        placeholder="Breed" required>
-                    <label for="floatingInputBreed">Postcode</label>
+                        placeholder="Postal Code" required>
+                    <label for="postalcode">Postal Code</label>
                 </div>
-                
+
                 <div class="form-floating mb-3">
-                    <input required="true" type="tel" id="phone" name="phone"class="form-control" id="floatingInputBreed"
-                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px;width:700px;" 
-                        placeholder="Phone NUmber" required>
-                    <label for="floatingInputBreed">03xx-xxxxxxx</label>
+                    <input required="true" type="tel" id="phone" name="phone" class="form-control"
+                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px;width:700px;"
+                        placeholder="Phone Number" required>
+                    <label for="phone">03xx-xxxxxxx</label>
                 </div>
                 <div class="mb-0">
-                    <button class="button-30" role="button" onclick="window.location.href='payment-method.php';" style="background: #FF6F61;colo">Proceed</button>
+                    <button style="background: #FF6F61" class="button-30" id="proceedButton" type="button"
+                        role="button">Proceed</button>
                 </div>
             </form>
         </div>
     </div>
-    </script>
+
+    <div id="error-alert" class="alert alert-danger align-items-center gap-2 position-fixed font-thin border-0"
+        role="alert" style="display: none; bottom:20px; right:20px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-octagon-alert">
+            <path d="M12 16h.01" />
+            <path d="M12 8v4" />
+            <path
+                d="M15.312 2a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586l-4.688-4.688A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2z" />
+        </svg> <span id="alert-text" class=''></span>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
         </script>
-   <?php require_once 'footer.php'; //Include Footer ?>
 
+
+    <!-- JavaScript to handle form submission and sessionStorage -->
+    <script>
+        document.getElementById('proceedButton').addEventListener('click', function () {
+            // Get form values
+            const fullname = document.getElementById('fullname').value;
+            const address = document.getElementById('address').value;
+            const postalcode = document.getElementById('postalcode').value;
+            const phone = document.getElementById('phone').value;
+
+            // Function to show the alert
+            function showAlert(message) {
+                document.getElementById('alert-text').innerText = message;
+                document.getElementById('error-alert').style.display = 'flex';
+
+                // Hide the alert after 3 seconds
+                setTimeout(() => {
+                    document.getElementById('error-alert').style.display = 'none';
+                }, 3000);
+            }
+
+            // Validate form fields
+            if (!fullname) {
+                showAlert('Full Name is required!');
+                return;
+            }
+
+            if (!address) {
+                showAlert('Address is required!');
+                return;
+            }
+
+            if (!postalcode) {
+                showAlert('Postal Code is required!');
+                return;
+            }
+
+            if (!phone) {
+                showAlert('Phone number is required!');
+                return;
+            }
+
+            // Store them in sessionStorage if all fields are valid
+            sessionStorage.setItem('orderDetails', JSON.stringify({ fullname, address, postalcode, phone }));
+
+            // Redirect to payment-method.php
+            window.location.href = 'payment-method.php';
+        });
+    </script>
+
+    <?php require_once '../footer.php'; //Include Footer ?>
 </body>
 
 </html>

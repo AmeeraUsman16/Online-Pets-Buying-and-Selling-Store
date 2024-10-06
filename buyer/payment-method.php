@@ -1,302 +1,237 @@
 <?php
+// Start the session
+session_start();
+
+// Include the database connection
+require 'db.php';
+
 // Initialize variables for storing form submission data
-$name = $card_number = $expiry = $cvv = '';
 $error_message = '';
+$success_message = '';
 
+// Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Collect and sanitize the input data
-    $name = htmlspecialchars(trim($_POST['name']));
-    $card_number = htmlspecialchars(trim($_POST['card_number']));
-    $expiry = htmlspecialchars(trim($_POST['expiry']));
-    $cvv = htmlspecialchars(trim($_POST['cvv']));
+    // Get the form data
+    $fullname = trim($_POST['name']);
+    $cardNumber = trim($_POST['cardNumber']);
+    $expiry = trim($_POST['expiry']);
+    $cvc = trim($_POST['CVC']);
+    $paymentMethod = isset($_POST['options-outlined']) ? $_POST['options-outlined'] : '';
 
-    // Basic validation
-    if (empty($name) || empty($card_number) || empty($expiry) || empty($cvv)) {
-        $error_message = "All fields are required.";
-    } else {
-        // Process payment logic here (e.g., connect to payment gateway)
-        // In a real application, this is where you'd call the payment processor API.
+    // Variable to store last 4 digits of the card, initially set to null
+    $last4 = null;
 
-        // For demonstration, just display the data
-        echo "<h1>Payment Information</h1>";
-        echo "<p>Name: $name</p>";
-        echo "<p>Card Number: $card_number</p>";
-        echo "<p>Expiry Date: $expiry</p>";
-        echo "<p>CVV: $cvv</p>";
+    // Validate the card number (only if payment method is "Card")
+    if ($paymentMethod === 'success-outlined') {
+        if (!preg_match('/^\d{16}$/', $cardNumber)) {
+            $error_message .= "Invalid card number. Please enter a valid 16-digit card number.<br>";
+        } else {
+            // Store the last 4 digits of the card number
+            $last4 = substr($cardNumber, -4);
+        }
 
-        // In a production environment, do not display sensitive information like the CVV
-        exit; // Stop further execution
+        // Validate other card details
+        if (empty($expiry)) {
+            $error_message .= "Card expiry date is required.<br>";
+        }
+
+        if (empty($cvc) || !preg_match('/^\d{3,4}$/', $cvc)) {
+            $error_message .= "Invalid CVC code.<br>";
+        }
+    }
+
+    // Validate other fields (basic validation)
+    if (empty($fullname)) {
+        $error_message .= "Full name is required.<br>";
+    }
+
+    // Proceed if there are no errors
+    if (empty($error_message)) {
+        // Retrieve cart data and order details from the POST request
+        $cart = json_decode($_POST['cart'], true);
+        $orderDetails = json_decode($_POST['orderDetails'], true);
+
+        // Initialize total price and order details
+        $totalPrice = 0;
+        $customerName = $orderDetails['fullname'];
+        $address = $orderDetails['address'];
+        $postalCode = $orderDetails['postalcode'];
+        $phone = $orderDetails['phone'];
+
+        // Calculate total price from cart
+        foreach ($cart as $item) {
+            $totalPrice += (float) $item['price'];
+        }
+
+        // Prepare to insert into orders table
+        $stmt = $db->prepare("INSERT INTO orders (total_price, customer_id, payment_method, customer_name, address, customer_phone, postal_code, last4) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $customerId = 1; // Replace with actual customer ID from session or database
+
+        // Bind parameters for the orders insert
+        $stmt->bind_param("dissssss", $totalPrice, $customerId, $paymentMethod, $customerName, $address, $phone, $postalCode, $last4);
+
+        // Execute and check if order insertion is successful
+        if ($stmt->execute()) {
+            $orderId = $stmt->insert_id; // Get the last inserted order ID
+
+            // Prepare to insert order items
+            foreach ($cart as $item) {
+                $itemStmt = $db->prepare("INSERT INTO order_items (order_id, petID, price, image, name, breed, description) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+                // Ensure the parameters are properly set and bind
+                $description = 'Description'; // You can customize this as needed
+
+                // Corrected bind_param with appropriate types, ensuring the `image` (string) is handled properly
+                $itemStmt->bind_param("iisssss", $orderId, $item['id'], $item['price'], $item['image'], $item['type'], $item['breed'], $description);
+
+                // Execute and check if order item insertion is successful
+                if (!$itemStmt->execute()) {
+                    $error_message .= "Error inserting item {$item['id']}: " . $itemStmt->error . "<br>";
+                }
+
+                $itemStmt->close(); // Close the item statement
+            }
+
+            if (empty($error_message)) {
+                $success_message = "Order placed successfully!";
+            }
+        } else {
+            $error_message = "Error placing order: " . $stmt->error;
+        }
+
+        $stmt->close(); // Close the main statement
+        $db->close(); // Close the database connection
     }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Form</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet" href="../assets/css/index.css">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .container {
-            margin: 30px auto;
-        }
-
-        .container .card {
-            width: 100%;
-            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-            background: #fff;
-            border-radius: 0px;
-        }
-
-        body {
-            background: #eee;
-        }
-
-        .btn.btn-primary {
-            background-color: #ddd;
-            color: black;
-            box-shadow: none;
-            border: none;
-            font-size: 20px;
-            width: 100%;
-            height: 100%;
-        }
-
-        .btn.btn-primary:focus {
-            box-shadow: none;
-        }
-
-        .container .card .img-box {
-            width: 80px;
-            height: 50px;
-        }
-
-        .container .card img {
-            width: 100%;
-            object-fit: fill;
-        }
-
-        .container .card .number {
-            font-size: 24px;
-        }
-
-        .container .card-body .btn.btn-primary .fab.fa-cc-paypal {
-            font-size: 32px;
-            color: #3333f7;
-        }
-
-        .fab.fa-cc-amex {
-            color: #1c6acf;
-            font-size: 32px;
-        }
-
-        .fab.fa-cc-mastercard {
-            font-size: 32px;
-            color: red;
-        }
-
-        .fab.fa-cc-discover {
-            font-size: 32px;
-            color: orange;
-        }
-
-        .c-green {
-            color: green;
-        }
-
-        .btn.btn-primary.payment {
-            background-color: #1c6acf;
-            color: white;
-            border-radius: 0px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 24px;
-        }
-
-        .form__div {
-            height: 50px;
-            position: relative;
-            margin-bottom: 24px;
-        }
-
-        .form-control {
-            width: 100%;
-            height: 45px;
-            font-size: 14px;
-            border: 1px solid #DADCE0;
-            border-radius: 0;
-            outline: none;
-            padding: 2px;
-            background: none;
-            z-index: 1;
-            box-shadow: none;
-        }
-
-        .form__label {
-            position: absolute;
-            left: 16px;
-            top: 10px;
-            background-color: #fff;
-            color: #80868B;
-            font-size: 16px;
-            transition: .3s;
-            text-transform: uppercase;
-        }
-
-        .form-control:focus+.form__label {
-            top: -8px;
-            left: 12px;
-            color: #1A73E8;
-            font-size: 12px;
-            font-weight: 500;
-            z-index: 10;
-        }
-
-        .form-control:not(:placeholder-shown).form-control:not(:focus)+.form__label {
-            top: -8px;
-            left: 12px;
-            font-size: 12px;
-            font-weight: 500;
-            z-index: 10;
-        }
-
-        .form-control:focus {
-            border: 1.5px solid #1A73E8;
-            box-shadow: none;
-        }
-
-        .body-style{
+        .body-style {
             max-width: 700px;
-           margin: auto;
-      
+            margin: auto;
+
+        }
+
+        .payment-cards {
+            max-width: 100px;
+            top: 18px;
+            right: 10px;
+        }
+
+        .pay-btn {
+            background-color: #5469d4;
         }
     </style>
 </head>
+
 <body>
-<?php require_once 'nav.php'; //Include Navigation bar ?>
+    <?php require_once 'nav.php'; //Include Navigation bar ?>
     <div class="body-style">
-    <div class="container">
-        <div class="row">
+        <div class="container mt-4">
             <!-- Credit Cards Section -->
-            <div class="col-lg-4 mb-lg-0 mb-3">
-                <div class="card p-3">
-                    <div class="img-box">
-                        <img src="https://www.freepnglogos.com/uploads/visa-logo-download-png-21.png" alt="">
-                    </div>
-                    <div class="number">
-                        <label class="fw-bold" for="">**** **** **** 1060</label>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <small><span class="fw-bold">Expiry date:</span><span>10/16</span></small>
-                        <small><span class="fw-bold">Name:</span><span>Kumar</span></small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-lg-0 mb-3">
-                <div class="card p-3">
-                    <div class="img-box">
-                        <img src="https://www.freepnglogos.com/uploads/mastercard-png/file-mastercard-logo-svg-wikimedia-commons-4.png" alt="">
-                    </div>
-                    <div class="number">
-                        <label class="fw-bold">**** **** **** 1060</label>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <small><span class="fw-bold">Expiry date:</span><span>10/16</span></small>
-                        <small><span class="fw-bold">Name:</span><span>Kumar</span></small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-lg-0 mb-3">
-                <div class="card p-3">
-                    <div class="img-box">
-                        <img src="https://www.freepnglogos.com/uploads/discover-png-logo/credit-cards-discover-png-logo-4.png" alt="">
-                    </div>
-                    <div class="number">
-                        <label class="fw-bold">**** **** **** 1060</label>
-                    </div>
-                    <div class="d-flex align-items-center justify-content-between">
-                        <small><span class="fw-bold">Expiry date:</span><span>10/16</span></small>
-                        <small><span class="fw-bold">Name:</span><span>Kumar</span></small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 mt-4">
-                <div class="card p-3">
-                    <p class="mb-0 fw-bold h4">Payment Methods</p>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="card p-3">
-                    <div class="card-body border p-0">
-                        <p>
-                            <a class="btn btn-primary w-100 h-100 d-flex align-items-center justify-content-between" data-bs-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="true" aria-controls="collapseExample1">
-                                <span class="fw-bold">PayPal</span>
-                                <span class="fab fa-cc-paypal"></span>
-                            </a>
-                        </p>
-                        <div class="collapse p-3 pt-0" id="collapseExample1">
-                            <div class="row">
-                                <div class="col-8">
-                                    <p class="h4 mb-0">Summary</p>
-                                    <p class="mb-0"><span class="fw-bold">Product:</span><span class="c-green">: Name of product</span></p>
-                                    <p class="mb-0"><span class="fw-bold">Price:</span><span class="c-green">:$452.90</span></p>
-                                </div>
-                                <div class="col-4">
-                                    <img class="img-box" src="https://www.freepnglogos.com/uploads/credit-card-logo-png-4.png" alt="">
-                                </div>
-                            </div>
+            <form action="" method="post" class='pt-1 payment-form shadow-sm p-4 rounded'>
+                <input type="hidden" name="cart" id="cartData"
+                    value='<?php echo htmlspecialchars(json_encode($_SESSION['cart'])); ?>'>
+                <input type="hidden" name="orderDetails" id="orderDetails"
+                    value='<?php echo htmlspecialchars(json_encode($_SESSION['orderDetails'])); ?>'>
+
+                <div class="col-12 mt-4">
+                    <div class="card border-0 p-3 border-bottom">
+                        <p class="mb-0 fw-bold h4">Payment Methods</p>
+                        <div class='mt-3'>
+                            <input type="radio" class="btn-check" name="options-outlined" id="success-outlined"
+                                autocomplete="off" checked>
+                            <label class="btn shadow-sm border text-start ps-3 text-gray" style='width: 120px'
+                                for="success-outlined">
+                                <svg class='me-1' xmlns="http://www.w3.org/2000/svg" width="28" height="25"
+                                    viewBox="0 0 24 24" fill="none" stroke="#ff9c9c" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card">
+                                    <rect width="20" height="14" x="2" y="5" rx="2" />
+                                    <line x1="2" x2="22" y1="10" y2="10" />
+                                </svg><br> Card</label>
+                            <input type="radio" class="btn-check" name="options-outlined" id="success-outlined1"
+                                autocomplete="off">
+                            <label class="btn ms-2 shadow-sm border text-start ps-3 text-gray" for="success-outlined1"
+                                style='width: 170px'>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                                    fill="none" stroke="#aeaefd" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-banknote">
+                                    <rect width="20" height="12" x="2" y="6" rx="2" />
+                                    <circle cx="12" cy="12" r="2" />
+                                    <path d="M6 12h.01M18 12h.01" />
+                                </svg> <br> Cash On Delivery</label>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <form action="" method="post">
-                    <div class="form__div">
-                        <input type="text" name="name" class="form-control" placeholder=" " required>
-                        <label class="form__label">Name on Card</label>
+
+                <div class="form-floating mb-3 mt-4">
+                    <input type="text" name="name" class="form-control" id="floatingName" placeholder="name" required
+                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px">
+                    <label for="floatingName">Full Name</label>
+                </div>
+
+                <div class="form-floating mb-3 position-relative">
+                    <input type="text" name="cardNumber" class="form-control" id="floatingCardNumber"
+                        placeholder="Card Number" required
+                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px">
+                    <label for="floatingCardNumber">Card Number (1234 1234 1234 1234)</label>
+                    <img class='payment-cards position-absolute' src="../assets/images/payment-cards.png" alt="">
+                </div>
+
+                <div class="d-flex align-items-center gap-3">
+                    <div class="form-floating mb-3 w-100">
+                        <input type="text" name="expiry" class="form-control" id="floatingExpiry" placeholder="Expiry"
+                            required style="border: none; border: 1px solid #cdcdcd; border-radius:8px">
+                        <label for="floatingExpiry">Expiry (MM / YY)</label>
                     </div>
-                    <div class="form__div">
-                        <input type="text" name="card_number" class="form-control" placeholder=" " required>
-                        <label class="form__label">Card Number</label>
+                    <div class="form-floating mb-3 w-100">
+                        <input type="text" name="CVC" class="form-control" id="floatingCvc" placeholder="CVC" required
+                            style="border: none; border: 1px solid #cdcdcd; border-radius:8px">
+                        <label for="floatingCvc">CVC</label>
                     </div>
-                    <div class="form__div">
-                        <input type="text" name="expiry" class="form-control" placeholder=" " required>
-                        <label class="form__label">Expiry Date (MM/YY)</label>
+                </div>
+
+                <button class="btn pay-btn mt-3 shadow-sm text-white w-100 py-2" type="submit">Pay Now</button>
+
+                <?php if ($error_message): ?>
+                    <div class="alert alert-danger mt-4" role="alert">
+                        <?php echo $error_message; ?>
                     </div>
-                    <div class="form__div">
-                        <input type="text" name="cvv" class="form-control" placeholder=" " required>
-                        <label class="form__label">CVV</label>
+                <?php endif; ?>
+
+                <?php if ($success_message): ?>
+                    <div class="alert alert-success mt-4" role="alert">
+                        <?php echo $success_message; ?>
                     </div>
-                    <button type="submit" class="btn btn-primary payment">Pay Now</button>
-                </form>
-                <?php
-                // Display any error messages
-                if (!empty($error_message)) {
-                    echo "<div class='alert alert-danger mt-3'>$error_message</div>";
-                }
-                ?>
-            </div>
+                <?php endif; ?>
+            </form>
         </div>
     </div>
-    </div>
-    <?php require_once 'footer.php'; //Include Footer ?>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"></script>
+    <script>document.querySelector('form').addEventListener('submit', function () {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const orderDetails = JSON.parse(sessionStorage.getItem('orderDetails')) || {};
 
+            // Populate hidden fields
+            document.getElementById('cartData').value = JSON.stringify(cart);
+            document.getElementById('orderDetails').value = JSON.stringify(orderDetails);
+        });</script>
 
-
-  
+    <?php require_once '../footer.php'; //Include Footer ?>
 </body>
+
 </html>

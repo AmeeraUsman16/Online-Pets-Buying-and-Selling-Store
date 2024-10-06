@@ -15,6 +15,13 @@ $id = $_SESSION['userid'];
     <link rel="stylesheet" href="../assets/css/index.css">
 
     <style>
+        .pet-card-image {
+            width: 100%;
+            min-width: 120px;
+            height: 90px;
+            object-fit: cover;
+        }
+
         .container {
             display: flex;
             /* Use flexbox to align items horizontally */
@@ -25,6 +32,11 @@ $id = $_SESSION['userid'];
             max-width: 900px;
 
         }
+
+        .pets-wrapper {
+            max-width: 700px;
+        }
+
 
         .box1,
         .box2 {
@@ -72,63 +84,63 @@ $id = $_SESSION['userid'];
     require_once 'nav.php';
     require_once 'db.php';
     ?>
-   
-    <?php
-    $select = "SELECT*FROM tblpets WHERE sellerId='$id'";
-    $run = mysqli_query($db, $select);
-    $count = 0;
-    while ($data = mysqli_fetch_assoc($run)) {
-        $count++;
-        ?>
-       
 
-        <div class="container" >
-            <div class='d-flex pet-item bg-grayv1 p-1 rounded w-100' >
-                <div style="max-width:200px;max-height:200px" class="p-2">
-                    <img class="rounded card-img-top pet-card-image p-0" src="../uploads/<?php echo $data['image']; ?>"
-                        alt="Pets_image">
-                </div>
-                <div class="pl-5 p-2 d-flex justify-content-between w-100">
+    <div class="mt-4">
+        <?php
+        $select = "SELECT*FROM tblpets WHERE sellerId='$id'";
+        $run = mysqli_query($db, $select);
+        $count = 0;
+        while ($data = mysqli_fetch_assoc($run)) {
+            $count++;
+            ?>
 
-                    <div>
-                        <p class="card-title fs-5 text-gray"><?php echo $data['petType']; ?></p>
-                        <p class="card-title text-gray"><?php echo $data['price']; ?></p>
-                        <p class="card-text text-accent fs-7"><?php echo $data['breed']; ?></p>
-                        <!-- <p class="card-text"><?php echo $data['description']; ?></p> -->
+
+            <div class="container pets-wrapper">
+                <div class='d-flex pet-item bg-grayv1 p-1 rounded w-100'>
+                    <div style="max-width:200px;max-height:200px" class="p-2">
+                        <img class="rounded card-img-top pet-card-image p-0" src="../uploads/<?php echo $data['image']; ?>"
+                            alt="Pets_image">
                     </div>
+                    <div class="pl-5 p-2 d-flex justify-content-between w-100">
 
-                    <div class="icon-box pe-3 pt-3">
-                        <a href="edit-pets.php?petID=<?php echo $data['petID']; ?>">
-                            <i class="fas fa-pen"
-                                style="font-size:16px;color:grey;margin-right:16px;align-items: center;"></i></a>
-
-                        <div class="icon-box2">
-                            <a href="view-pets.php?delete=<?php echo $data['petID']; ?>">
-                                <i class="fas fa-trash" style="font-size:16px;color:grey"></i></a>
+                        <div>
+                            <p class="card-title fs-5 text-gray"><?php echo $data['petType']; ?></p>
+                            <p class="card-title text-gray"><?php echo $data['price']; ?></p>
+                            <p class="card-text text-accent fs-7"><?php echo $data['breed']; ?></p>
+                            <!-- <p class="card-text"><?php echo $data['description']; ?></p> -->
                         </div>
-                    </div>
 
+                        <div class="icon-box pe-3 pt-3">
+                            <a href="edit-pets.php?petID=<?php echo $data['petID']; ?>">
+                                <i class="fas fa-pen"
+                                    style="font-size:16px;color:grey;margin-right:16px;align-items: center;"></i></a>
+
+                            <div class="icon-box2">
+                                <a href="view-pets.php?delete=<?php echo $data['petID']; ?>">
+                                    <i class="fas fa-trash" style="font-size:16px;color:grey"></i></a>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </div>
 
-    <?php } ?>
-    <!-- </table> -->
-    <?php
+        <?php } ?>
+        <!-- </table> -->
+        <?php
 
-    if (isset($_GET['delete'])) {
-        $delete = $_GET['delete'];
-        $dellQuerry = "DELETE FROM tblpets WHERE petID='$delete'";
-        $run = mysqli_query($db, $dellQuerry);
-        if ($run) {
-            echo "<div class='alert alert-danger mb-0 mt-3' style='border-radius: 27px;>DELETE</div>";
-        } else {
-            echo "<div class='alert alert-danger mb-0 mt-3' style='border-radius: 27px;'>Something went wrong</div>";
-        }
-    } ?>
+        if (isset($_GET['delete'])) {
+            $delete = $_GET['delete'];
+            $dellQuerry = "DELETE FROM tblpets WHERE petID='$delete'";
+            $run = mysqli_query($db, $dellQuerry);
+            if ($run) {
+                echo "<div class='alert alert-danger mb-0 mt-3' style='border-radius: 27px;>DELETE</div>";
+            } else {
+                echo "<div class='alert alert-danger mb-0 mt-3' style='border-radius: 27px;'>Something went wrong</div>";
+            }
+        } ?>
     </div>
-    </div>
-    <?php require_once 'footer.php'; //Include Foot ?>
+    <?php require_once '../footer.php'; //Include Foot ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
         </script>

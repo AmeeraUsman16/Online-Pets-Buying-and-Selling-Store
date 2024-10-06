@@ -24,13 +24,15 @@ $id = $_SESSION['userid'];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../assets/css/index.css">
 
 
     <style>
         .pet-img {
-            max-width: 200px;
+            width: 200px;
             border-radius: 10px;
-            max-height: 150px;
+            height: 50px;
+            object-fit: cover;
         }
 
         .heading-style {
@@ -104,70 +106,89 @@ $id = $_SESSION['userid'];
     <h1 class="heading-style text-secondary detail">Your Cart</h1>
     <div class="container" style="max-width:900px;margin-bottom:80px">
 
-        <table class="table">
+        <table class="table" id="cart-table">
             <thead>
                 <tr>
-                    <th scope="col" class="text-secondary fs-4 detail">Pet</th>
-                    <th scope="col" class="text-secondary fs-4 detail">Detail</th>
-                    <th scope="col" class="text-secondary fs-4 detail">Total</th>
-
+                    <th scope="col" class="text-secondary fs-6 fw-semibold detail">Petd</th>
+                    <th scope="col" class="text-secondary fs-6 fw-semibold detail">Detail</th>
+                    <th scope="col" class="text-secondary fs-6 fw-semibold detail">Total</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php
-                // Fetch pets added by the user
-                $select = "SELECT * FROM tblpets WHERE sellerId='$id'";
-                $run = mysqli_query($db, $select);
-
-                if (mysqli_num_rows($run) > 0) { // Check if there are results
-                    while ($data = mysqli_fetch_assoc($run)) {
-                        ?>
-                        <tr>
-                            <td><img class="card-img-top pet-img"
-                                    src="../uploads/<?php echo htmlspecialchars($data['image']); ?>" alt="Pets_image"></td>
-                            <td class="detail">
-                                <span class="fs-5 text-secondary"><?php echo htmlspecialchars($data['petType']); ?></span><br>
-                                <span class="text-secondary"><?php echo htmlspecialchars($data['description']); ?></span><br>
-                                <span class="text-danger"
-                                    style="font-size:0.9em;"><?php echo htmlspecialchars($data['breed']); ?></span>
-                            </td>
-                            <td class="text-secondary detail"><?php echo htmlspecialchars($data['price']); ?></td>
-                            <td>
-                                <a href="remove_from_cart-pets.php?delete=<?php echo $data['petID']; ?>"
-                                    onclick="return confirm('Are you sure you want to delete this pet?');">
-                                    <!-- <i class="fas fa-trash" style="font-size:16px;color:grey"></i> -->
-                                    <i class="material-icons" style="font-size:25px;color:grey;margin-left:20px;">delete</i>
-                                </a>
-                            </td>
-                        </tr>
-                    <?php
-                    }
-                } else {
-                    echo '<tr><td colspan="4" class="text-center">No pets in your cart.</td></tr>'; // Message when no pets
-                }
-                ?>
+            <tbody id="cart-items">
+                <!-- Cart items will be dynamically inserted here -->
             </tbody>
         </table>
-        <div style="max-width:280px;max-height:260px;margin-left:650px">
-            <p class="text-secondary detail ">Subtotal: </p>
-            <p style="font-size: 12px;" class="text-secondary ">Taxes and shipping calculated at checkout</p>
-            <button class="button-30" role="button" style="margin-left: 100px;" onclick="window.location.href='order-details.php';">
-    Checkout
-</button>
-
-
-
+        <div class='mb-5' style="max-width:280px;max-height:260px;margin-left:650px">
+            <p class="text-secondary detail">Subtotal: <span id="subtotal">$0.00</span></p>
+            <p style="font-size: 12px;" class="text-secondary">Taxes and shipping calculated at checkout</p>
+            <a href='order-details.php' class="button-30" role="button" style="margin-left: 100px;"
+                id="checkout-button">
+                Checkout
+            </a>
         </div>
     </div>
-
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cartTableBody = document.getElementById('cart-items');
+            const subtotalElement = document.getElementById('subtotal');
+            let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+            let subtotal = 0;
 
-        <?php require_once 'footer.php'; //Include Footer ?>
+            // Function to populate cart items
+            function populateCart() {
+                cartTableBody.innerHTML = ''; // Clear the table body before inserting
+                if (cart.length > 0) {
+                    cart.forEach((item, index) => {
+                        const row = document.createElement('tr');
+
+                        row.innerHTML = `
+                        <td><img class="card-img-top pet-img text-gray" src="../uploads/${item.image || 'default.png'}" alt="Image Not Available" style="width:100px;"></td>
+                        <td class="detail">
+                            <span class="fs-5 text-secondary">${item.type}</span><br>
+                            <span class="text-danger fs-7">${item.breed}</span><br>
+                        </td>
+                        <td class="text-secondary detail">$${item.price}</td>
+                        <td>
+                            <button 
+                                class="bg-transparent p-0 border-0 mt-1"
+                                onclick="removeFromCart(${index})"
+                            >
+                                <i class="material-icons cursor-pointer" style="font-size:25px;color:grey;margin-left:20px;">delete</i>
+                            </button>
+                        </td>
+                    `;
+
+                        cartTableBody.appendChild(row);
+
+                        // Calculate subtotal
+                        subtotal += parseFloat(item.price);
+                    });
+                    subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+                } else {
+                    cartTableBody.innerHTML = '<tr><td colspan="4" class="text-center">No pets in your cart.</td></tr>';
+                }
+            }
+
+            // Initialize the cart on page load
+            populateCart();
+        });
+
+        // Function to remove an item from the cart
+        function removeFromCart(index) {
+            let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+            cart.splice(index, 1); // Remove the pet at the given index
+            localStorage.setItem('cart', JSON.stringify(cart)); // Update localStorage
+            document.dispatchEvent(new Event('DOMContentLoaded')); // Trigger re-populating of cart
+        }
+    </script>
+
+    <?php require_once '../footer.php'; //Include Footer ?>
 </body>
 
 </html>
