@@ -72,17 +72,7 @@ $id = $_SESSION['userid'];
     require_once 'nav.php';
     require_once 'db.php';
     ?>
-    <!-- <div class="container mt-5">
-            <div class="container mt-5">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Pets Type</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead> -->
+   
     <?php
     $select = "SELECT*FROM tblpets WHERE sellerId='$id'";
     $run = mysqli_query($db, $select);
@@ -90,23 +80,10 @@ $id = $_SESSION['userid'];
     while ($data = mysqli_fetch_assoc($run)) {
         $count++;
         ?>
-        <!-- <tbody>
-                            <tr>
-                                <th scope="row"><?php echo $count ?></th>
-                                <td><?php echo $data['petType'] ?></td>
-                                <td><?php echo $data['description'] ?></td>
-                                <td>
+       
 
-                                    <a href="edit-pets.php?petID=<?php echo $data['petID']; ?>">
-                                        <i class="fas fa-pen" style="font-size:25px;color:#0597a0;margin-right:20px;"></i></a>
-                                    <a href="view-pets.php?delete=<?php echo $data['petID']; ?>">
-                                        <i class="fas fa-trash" style="font-size:25px;color:#0597a0"></i></a>
-                                </td>
-                            </tr>
-                        </tbody> -->
-
-        <div class="container">
-            <div class='d-flex pet-item bg-grayv1 p-1 rounded w-100'>
+        <div class="container" >
+            <div class='d-flex pet-item bg-grayv1 p-1 rounded w-100' >
                 <div style="max-width:200px;max-height:200px" class="p-2">
                     <img class="rounded card-img-top pet-card-image p-0" src="../uploads/<?php echo $data['image']; ?>"
                         alt="Pets_image">
@@ -151,7 +128,7 @@ $id = $_SESSION['userid'];
     } ?>
     </div>
     </div>
-
+    <?php require_once 'footer.php'; //Include Foot ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
         </script>

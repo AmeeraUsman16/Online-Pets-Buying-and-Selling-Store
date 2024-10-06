@@ -290,114 +290,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
     </div>
-
+    <?php require_once 'footer.php'; //Include Footer ?>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"></script>
 
 
 
-    <!-- Footer -->
-  <footer class="text-center " style="background-color:#FAF0E6">
-    <!-- Grid container -->
-    <div class="container">
-      <!-- Section: Links -->
-      <section class="mt-5">
-        <!-- Grid row-->
-        <div class="row text-center d-flex justify-content-center pt-5">
-          <!-- Grid column -->
-          <div class="col-md-2">
-            <h6 class="text-uppercase font-weight-bold">
-              <a href="#!" class='text-gray text-decoration-none'>About us</a>
-            </h6>
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-2">
-            <h6 class="text-uppercase font-weight-bold">
-              <a href="#!" class='text-gray text-decoration-none'>Products</a>
-            </h6>
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-2">
-            <h6 class="text-uppercase font-weight-bold">
-              <a href="#!" class='text-gray text-decoration-none'>Awards</a>
-            </h6>
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-2">
-            <h6 class="text-uppercase font-weight-bold">
-              <a href="#!" class='text-gray text-decoration-none'>Help</a>
-            </h6>
-          </div>
-          <!-- Grid column -->
-
-          <!-- Grid column -->
-          <div class="col-md-2">
-            <h6 class="text-uppercase font-weight-bold">
-              <a href="#!" class='text-gray text-decoration-none'>Contact</a>
-            </h6>
-          </div>
-          <!-- Grid column -->
-        </div>
-        <!-- Grid row-->
-      </section>
-      <!-- Section: Links -->
-
-      <hr class="my-5" />
-
-      <!-- Section: Text -->
-      <section class="mb-5">
-        <div class="row d-flex justify-content-center">
-          <div class="col-lg-8">
-            <p>
-              Pet's Heaven – Your Trusted Destination for Buying and Selling Pets
-              Find your perfect pet or loving home with ease. Pet's Heaven offers a wide range of pets, from dogs and
-              cats to birds and more. Whether you're adopting or listing a pet, we ensure secure transactions and a
-              community of responsible pet owners. Join us today and give a pet a loving home!
-            </p>
-          </div>
-        </div>
-      </section>
-      <!-- Section: Text -->
-
-      <!-- Section: Social -->
-      <section class="text-center mb-5">
-        <a href="" class="text-white me-4">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-twitter"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-google"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-linkedin"></i>
-        </a>
-        <a href="" class="text-white me-4">
-          <i class="fab fa-github"></i>
-        </a>
-      </section>
-      <!-- Section: Social -->
-    </div>
-    <!-- Grid container -->
-
-    <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-      © 2020 Copyright:
-      <a class="text-white" href="#">Pet's Heaven</a>
-    </div>
-    <!-- Copyright -->
-  </footer>
-  <!-- Footer -->
+  
 </body>
 </html>

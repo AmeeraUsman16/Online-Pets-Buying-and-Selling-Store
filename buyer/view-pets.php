@@ -27,6 +27,40 @@ $id = $_SESSION['userid'];
                 max-width: none;
             }
         }
+        .button-39 {
+      background-color: #FFFFFF;
+      border: 1px solid rgb(209, 213, 219);
+      border-radius: .5rem;
+      box-sizing: border-box;
+      color: #636363;
+      font-family: "Inter var", ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      font-size: .805rem;
+      font-weight: 600;
+      line-height: 1.25rem;
+      padding: .65rem 1rem;
+      text-align: center;
+      text-decoration: none #D1D5DB solid;
+      text-decoration-thickness: auto;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+
+    }
+
+    .button-39:hover {
+      background-color: rgb(249, 250, 251);
+    }
+
+    .button-39:focus {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+
+    .button-39:focus-visible {
+      box-shadow: none;
+    }
     </style>
 </head>
 
@@ -45,22 +79,23 @@ $id = $_SESSION['userid'];
             while ($data = mysqli_fetch_assoc($run)) {
                 $count++;
                 ?>
+<div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" style="margin-top:70px"> <!-- Change the column size as needed -->
+          <div class="card border-0 pb-1" style="background-color:#fff3e8">
+            <img class="card-img-top pet-card-image" src="../uploads/<?php echo $data['image']; ?>" alt="Pets_image">
+            <div class="card-body">
+              <div class="d-flex justify-content-between  align-items-center"> <!-- Flex container -->
+                <strong
+                  class="card-title text-capitalize fw-normal text-gray mb-0"><?php echo $data['petType']; ?></strong>
+                <strong class="card-title text-gray fw-normal mb-0"><?php echo $data['price']; ?></strong>
+              </div>
+              <p class="card-text mb-3 text-capitalize fs-7 text-accent"><?php echo $data['breed']; ?></p>
+              <div class="d-flex justify-content-end">
+                <button   class="button-39 py-2.5 mt-0 border-0 text-gray" role="button" href="cart-pets.php">Add to Cart</button>
+              </div>
 
-
-
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"> <!-- Change the column size as needed -->
-                    <div class="card">
-                        <img class="card-img-top pet-card-image" src="../uploads/<?php echo $data['image']; ?>"
-                            alt="Pets_image">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between  align-items-center"> <!-- Flex container -->
-                                <strong class="card-title"><?php echo $data['petType']; ?></strong>
-                                <strong class="card-title"><?php echo $data['price']; ?></strong>
-                            </div>
-                            <p class="card-text"><?php echo $data['breed']; ?></p>
-                            <!-- <p class="card-text"><?php echo $data['description']; ?></p> -->
+              
                            
-                            <a href="cart-pets.php" class="btn btn-primary">Add to Cart</a>
+                            <!-- <a href="cart-pets.php" class="btn btn-primary">Add to Cart</a> -->
                         </div>
                     </div>
 
@@ -71,7 +106,7 @@ $id = $_SESSION['userid'];
 
         </div>
     </div>
-
+    <?php require_once 'footer.php'; //Include Footer ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
         </script>
