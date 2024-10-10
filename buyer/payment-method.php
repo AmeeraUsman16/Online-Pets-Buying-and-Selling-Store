@@ -226,10 +226,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             const orderDetails = JSON.parse(sessionStorage.getItem('orderDetails')) || {};
 
-            // Populate hidden fields
             document.getElementById('cartData').value = JSON.stringify(cart);
             document.getElementById('orderDetails').value = JSON.stringify(orderDetails);
+
         });</script>
+
+    <script>
+        var orderSuccess = <?php echo !empty($success_message) ? 'true' : 'false'; ?>;
+        if (orderSuccess) {
+            localStorage.removeItem('cart');
+            sessionStorage.removeItem('orderDetails');
+        }
+    </script>
 
     <?php require_once '../footer.php'; //Include Footer ?>
 </body>
