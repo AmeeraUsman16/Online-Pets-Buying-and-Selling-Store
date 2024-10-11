@@ -129,8 +129,9 @@ $id = $_SESSION['userid'];
         $count++;
         ?>
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"> <!-- Change the column size as needed -->
-          <div class="card border-0 pb-1" style="background-color:#fff3e8">
-            <img class="card-img-top pet-card-image" src="../uploads/<?php echo $data['image']; ?>" alt="Pets_image">
+          <div class="card border-0 pb-1" style="background-color:#fff3e8;;" 
+          >
+            <img class="card-img-top pet-card-image" src="../uploads/<?php echo $data['image']; ?>" alt="Pets_image" onclick="window.location.href='http://localhost/pets/pet-details.php'";>
             <div class="card-body">
               <div class="d-flex justify-content-between  align-items-center"> <!-- Flex container -->
                 <strong
