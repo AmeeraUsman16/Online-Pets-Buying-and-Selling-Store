@@ -115,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap">
-    <link rel="stylesheet" href="../assets/css/index.css">
+    <link rel="stylesheet" href="./assets/css/index.css">
 
     <style>
         .body-style {
@@ -239,7 +239,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </script>
 
-    <?php require_once '../footer.php'; //Include Footer ?>
+    <?php require_once './footer.php'; //Include Footer ?>
 </body>
 
 </html>

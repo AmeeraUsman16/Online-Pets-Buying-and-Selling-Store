@@ -110,7 +110,7 @@ $id = $_SESSION['userid'];
 
 <body>
   <?php
-  require_once 'nav.php';
+  require_once '../nav.php';
   require_once 'db.php';
   ?>
   <!-- <img class="w-100" src="../assets/images/animals-pets-banner.jpg" alt=""> -->

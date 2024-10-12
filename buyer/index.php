@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once 'db.php';
-$id=$_SESSION['userid'];
+$id = isset($_SESSION['userid']) ? $_SESSION['userid'] : null;
 
 if (isset($_POST['update-btn'])) {
     $name=$_POST['name'];
@@ -41,7 +41,7 @@ if (isset($_POST['update-btn'])) {
             background-color: #FAF0E6;
             border-radius: 4px;
             border-width: 0;
-            box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+            box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #4F000000 0 -3px 0 inset;
             box-sizing: border-box;
             color: #36395A;
             cursor: pointer;
@@ -67,23 +67,23 @@ if (isset($_POST['update-btn'])) {
         }
 
         .button-30:focus {
-            box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+            box-shadow: #4F000000 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #4F000000 0 -3px 0 inset;
         }
 
         .button-30:hover {
-            box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+            box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #4F000000 0 -3px 0 inset;
             transform: translateY(-2px);
         }
 
         .button-30:active {
-            box-shadow: #D6D6E7 0 3px 7px inset;
+            box-shadow: #4F000000 0 3px 7px inset;
             transform: translateY(2px);
         }
         </style>
 </head>
 
 <body>
-    <?php  require_once 'nav.php' //Include Navigation bar?>
+    <?php  require_once '../nav.php' //Include Navigation bar?>
     <div class="container mt-5">
         <?php 
         $select="SELECT*FROM users WHERE uid='$id'";

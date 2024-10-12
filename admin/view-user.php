@@ -12,8 +12,8 @@
 
 <body>
     <?php  
-        require_once 'nav.php';
-        require_once 'db.php';
+        require_once '../nav.php';
+        require_once '../db.php';
     ?>
     <div class="container mt-5">
         <div class="container mt-5">

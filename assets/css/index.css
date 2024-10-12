@@ -39,3 +39,10 @@
 .bg-grayv1 {
   background-color: #f3f1f1;
 }
+
+.truncate-username {
+  max-width: 65px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

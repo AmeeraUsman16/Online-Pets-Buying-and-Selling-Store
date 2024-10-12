@@ -13,7 +13,7 @@ $uid = $_SESSION['userid'];
     <title>Add Pet</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../assets/css/index.css">
+    <link rel="stylesheet" href="./assets/css/index.css">
 
     <style>
         /* Styling for the Proceed button */
@@ -23,7 +23,7 @@ $uid = $_SESSION['userid'];
             background-color: #FAF0E6;
             border-radius: 4px;
             border-width: 0;
-            box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+            box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #4F000000 0 -3px 0 inset;
             box-sizing: border-box;
             color: white;
             cursor: pointer;
@@ -49,16 +49,16 @@ $uid = $_SESSION['userid'];
         }
 
         .button-30:focus {
-            box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+            box-shadow: #4F000000 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #4F000000 0 -3px 0 inset;
         }
 
         .button-30:hover {
-            box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+            box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #4F000000 0 -3px 0 inset;
             transform: translateY(-2px);
         }
 
         .button-30:active {
-            box-shadow: #D6D6E7 0 3px 7px inset;
+            box-shadow: #4F000000 0 3px 7px inset;
             transform: translateY(2px);
         }
 
@@ -177,7 +177,7 @@ $uid = $_SESSION['userid'];
         });
     </script>
 
-    <?php require_once '../footer.php'; //Include Footer ?>
+    <?php require_once './footer.php'; //Include Footer ?>
 </body>
 
 </html>

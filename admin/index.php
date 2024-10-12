@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php';
+require_once '../db.php';
 $id=$_SESSION['userid'];
 if (isset($_POST['update-btn'])) {
     $name=$_POST['name'];
@@ -28,7 +28,7 @@ if (isset($_POST['update-btn'])) {
 </head>
 
 <body>
-    <?php  require_once 'nav.php' //Include Navigation bar?>
+    <?php  require_once '../nav.php' //Include Navigation bar?>
     <div class="container mt-5">
         <div class="container mt-5">
           <?php

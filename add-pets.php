@@ -12,7 +12,7 @@ if (isset($_POST['add-btn'])) {
     // Handle file upload
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         // Define the directory to store the uploaded files
-        $targetDir = "../uploads/";
+        $targetDir = "./uploads/";
 
         // Get the file extension
         $fileExt = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
@@ -50,18 +50,23 @@ if (isset($_POST['add-btn'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Add Pet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="../assets/css/index.css">
+    <link rel="stylesheet" href="./assets/css/index.css">
 
-<style>
-       .button-30 {
+    <style>
+        .button-30 {
             align-items: center;
             appearance: none;
             background-color: #FAF0E6;
             border-radius: 4px;
             border-width: 0;
-            box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+            box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #4F000000 0 -3px 0 inset;
             box-sizing: border-box;
             color: #36395A;
             cursor: pointer;
@@ -87,27 +92,26 @@ if (isset($_POST['add-btn'])) {
         }
 
         .button-30:focus {
-            box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+            box-shadow: #4F000000 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #4F000000 0 -3px 0 inset;
         }
 
         .button-30:hover {
-            box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+            box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #4F000000 0 -3px 0 inset;
             transform: translateY(-2px);
         }
 
         .button-30:active {
-            box-shadow: #D6D6E7 0 3px 7px inset;
+            box-shadow: #4F000000 0 3px 7px inset;
             transform: translateY(2px);
         }
 
-        .div-form{
-    display:flex;
-    justify-content: center;
-    align-items:center;
-    margin-bottom: 100px
-    
-}
-</style>
+        .div-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 100px
+        }
+    </style>
 
 
 
@@ -154,14 +158,14 @@ if (isset($_POST['add-btn'])) {
                 </div>
                 <div class="mb-0">
                     <!-- <button class="button-30" role="button" >Add</button> -->
-                    <button type="submit"  name="add-btn" style="background: #FF6F61" class="btn text-white py-2 px-5 button-30"
-                        style="border-radius: 8px;">Add</button>
-                  
+                    <button type="submit" name="add-btn" style="background: #FF6F61"
+                        class="btn text-white py-2 px-5 button-30" style="border-radius: 8px;">Add</button>
+
                 </div>
             </form>
         </div>
     </div>
-    <?php require_once '../footer.php'; //Include Foot ?>
+    <?php require_once './footer.php'; //Include Foot ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
