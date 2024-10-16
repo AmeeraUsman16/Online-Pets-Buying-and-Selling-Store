@@ -8,6 +8,8 @@ require 'db.php';
 // Initialize variables for storing form submission data
 $error_message = '';
 $success_message = '';
+$id = isset($_SESSION['userid']) ? $_SESSION['userid'] : null;
+
 
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -65,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Prepare to insert into orders table
         $stmt = $db->prepare("INSERT INTO orders (total_price, customer_id, payment_method, customer_name, address, customer_phone, postal_code, last4) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $customerId = 1; // Replace with actual customer ID from session or database
+        $customerId = $id; // Replace with actual customer ID from session or database
 
         // Bind parameters for the orders insert
         $stmt->bind_param("dissssss", $totalPrice, $customerId, $paymentMethod, $customerName, $address, $phone, $postalCode, $last4);
@@ -112,11 +114,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Form</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap">
-    <link rel="stylesheet" href="./assets/css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="./assets/css/index.css">
     <style>
         .body-style {
             max-width: 700px;
@@ -203,7 +209,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
 
-                <button class="btn pay-btn mt-3 shadow-sm text-white w-100 py-2" type="submit">Pay Now</button>
+                <button class="border-0 rounded pay-btn mt-3 shadow-sm text-white w-100 py-2" type="submit">Pay Now</button>
 
                 <?php if ($error_message): ?>
                     <div class="alert alert-danger mt-4" role="alert">

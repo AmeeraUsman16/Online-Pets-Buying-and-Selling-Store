@@ -10,7 +10,7 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>VIEW</title>
+    <title>Pet's Heaven</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -131,8 +131,8 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
                 ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"> <!-- Change the column size as needed -->
                     <div class="card border-0 pb-1" style="background-color:#fff3e8;;">
-                        <img class="card-img-top pet-card-image" src="./uploads/<?php echo $data['image']; ?>"
-                            alt="Pets_image" onclick="window.location.href='http://localhost/pets/pet-details.php'" ;>
+                        <img class="card-img-top cursor-pointer pet-card-image" src="./uploads/<?php echo $data['image']; ?>"
+                            alt="Pets_image" onclick="window.location.href='http://localhost/pets/pet-details.php?petID=<?php echo $data['petID']; ?>'" ;>
                         <div class="card-body">
                             <div class="d-flex justify-content-between  align-items-center"> <!-- Flex container -->
                                 <strong
