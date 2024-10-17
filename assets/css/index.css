@@ -14,9 +14,14 @@
   max-width: fit-content;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .ml-auto {
   margin-left: auto;
 }
+
 
 .underline {
   text-decoration: underline;

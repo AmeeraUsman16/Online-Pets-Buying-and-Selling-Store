@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 06, 2024 at 04:42 PM
+-- Generation Time: Oct 17, 2024 at 05:19 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -51,7 +51,20 @@ INSERT INTO `orders` (`id`, `total_price`, `customer_id`, `payment_method`, `cus
 (60, 16501.00, 1, '', 'asd', 'asd', 'asd', 'ad', NULL, '2024-10-06 19:25:04'),
 (61, 16501.00, 1, '', 'asd', 'asd', 'asd', 'ad', NULL, '2024-10-06 19:28:34'),
 (62, 16501.00, 1, '', 'asda', 'dasda', 'asdadada', 'asdad', NULL, '2024-10-06 19:31:24'),
-(63, 16501.00, 1, '', 'asda', 'dasda', 'asdadada', 'asdad', NULL, '2024-10-06 19:32:54');
+(63, 16501.00, 1, '', 'asda', 'dasda', 'asdadada', 'asdad', NULL, '2024-10-06 19:32:54'),
+(64, 15000.00, 1, '', 'Riley Ferguson', 'Voluptatum consequun', '+1 (117) 574-7258', 'Et ea distinctio As', NULL, '2024-10-10 10:53:35'),
+(65, 15000.00, 1, '', 'Craig Owens', 'Et atque fugiat repr', '+1 (724) 337-6971', 'Officia recusandae ', NULL, '2024-10-10 10:55:40'),
+(66, 15000.00, 1, '', 'Steel Gamble', 'Deserunt quos possim', '+1 (398) 505-1262', 'Aute at ex hic rem d', NULL, '2024-10-10 11:12:55'),
+(67, 15000.00, 1, '', 'Steel Gamble', 'Deserunt quos possim', '+1 (398) 505-1262', 'Aute at ex hic rem d', NULL, '2024-10-10 11:13:23'),
+(68, 15000.00, 1, '', 'Harriet Thomas', 'Reprehenderit volupt', '+1 (473) 888-8228', 'Exercitation ratione', NULL, '2024-10-10 11:16:16'),
+(69, 15000.00, 1, '', 'Harriet Thomas', 'Reprehenderit volupt', '+1 (473) 888-8228', 'Exercitation ratione', NULL, '2024-10-10 11:16:48'),
+(70, 15000.00, 1, '', 'Harriet Thomas', 'Reprehenderit volupt', '+1 (473) 888-8228', 'Exercitation ratione', NULL, '2024-10-10 11:16:56'),
+(71, 15000.00, 1, '', 'Emerald Silva', 'Voluptate animi vol', '+1 (871) 527-5972', 'Non fugit accusanti', NULL, '2024-10-10 11:23:26'),
+(72, 15000.00, 1, '', 'Inez Nolan', 'Qui aut aut adipisic', '+1 (402) 495-5919', 'Quis culpa qui elit', NULL, '2024-10-10 11:24:23'),
+(73, 1.00, 1, '', 'Lydia Hayden', 'Aut earum laboriosam', '+1 (101) 537-3414', 'Odit ex irure aliqua', NULL, '2024-10-16 04:51:18'),
+(74, 1.00, 14, '', 'Uriel White', 'Irure ullam totam so', '+1 (974) 929-6471', 'Anim dolor possimus', NULL, '2024-10-16 04:55:53'),
+(75, 1500.00, 14, '', 'Kieran Singleton', 'Et ut architecto off', '+1 (134) 996-4258', 'Rerum quibusdam quae', NULL, '2024-10-16 05:09:28'),
+(76, 1.00, 14, '', 'Uriel White', 'Irure ullam totam so', '+1 (974) 929-6471', 'Anim dolor possimus', NULL, '2024-10-16 05:12:28');
 
 -- --------------------------------------------------------
 
@@ -70,6 +83,46 @@ CREATE TABLE `order_items` (
   `description` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `petID`, `price`, `image`, `name`, `breed`, `description`) VALUES
+(32, 64, 51, 15000.00, '66fae1600be6f.jpg', 'butterfly', 'Papillon', 'Description'),
+(33, 65, 51, 15000.00, '66fae1600be6f.jpg', 'butterfly', 'Papillon', 'Description'),
+(34, 66, 51, 15000.00, '66fae1600be6f.jpg', 'butterfly', 'Papillon', 'Description'),
+(35, 67, 51, 15000.00, '66fae1600be6f.jpg', 'butterfly', 'Papillon', 'Description'),
+(36, 68, 51, 15000.00, '66fae1600be6f.jpg', 'butterfly', 'Papillon', 'Description'),
+(37, 69, 51, 15000.00, '66fae1600be6f.jpg', 'butterfly', 'Papillon', 'Description'),
+(38, 70, 51, 15000.00, '66fae1600be6f.jpg', 'butterfly', 'Papillon', 'Description'),
+(39, 71, 51, 15000.00, '66fae1600be6f.jpg', 'butterfly', 'Papillon', 'Description'),
+(40, 72, 51, 15000.00, '66fae1600be6f.jpg', 'butterfly', 'Papillon', 'Description'),
+(41, 73, 50, 1.00, '66f876bb0afcf.jpg', 'white kawa', 'blue', 'Description'),
+(42, 74, 50, 1.00, '66f876bb0afcf.jpg', 'white kawa', 'blue', 'Description'),
+(43, 75, 56, 1500.00, '66f876bb0afcf.jpg', 'Sparrow', 'cute', 'Description'),
+(44, 76, 50, 1.00, '66f876bb0afcf.jpg', 'white kawa', 'blue', 'Description');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reviews`
+--
+
+CREATE TABLE `reviews` (
+  `id` int(11) NOT NULL,
+  `petID` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `description` text NOT NULL,
+  `createdAt` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `petID`, `userId`, `description`, `createdAt`) VALUES
+(6, 56, 14, 'asda', '2024-10-17 08:06:03');
+
 -- --------------------------------------------------------
 
 --
@@ -84,17 +137,21 @@ CREATE TABLE `tblpets` (
   `price` decimal(10,2) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `createdAt` datetime DEFAULT current_timestamp(),
-  `breed` varchar(255) DEFAULT NULL
+  `breed` varchar(255) DEFAULT NULL,
+  `status` enum('available','sold','blocked') NOT NULL DEFAULT 'available',
+  `updatedAt` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tblpets`
 --
 
-INSERT INTO `tblpets` (`petID`, `sellerId`, `petType`, `description`, `price`, `image`, `createdAt`, `breed`) VALUES
-(50, 15, 'white kawa', 'Karachi', 1.00, '66fad29b70ee0.png', '2024-09-30 21:32:27', 'blue'),
-(51, 15, 'butterfly', 'Colorfull butterfly', 15000.00, '66fae1600be6f.jpg', '2024-09-30 22:35:28', 'Papillon'),
-(56, 15, 'Sparrow', 'Bbay sparrow', 1500.00, '66fc51d4daf09.jpg', '2024-10-02 00:47:32', 'cute');
+INSERT INTO `tblpets` (`petID`, `sellerId`, `petType`, `description`, `price`, `image`, `createdAt`, `breed`, `status`, `updatedAt`) VALUES
+(50, 9, 'white kawa', 'Karachi', 1.00, '66f876bb0afcf.jpg', '2024-09-30 21:32:27', 'blue', 'available', '2024-10-16 01:53:11'),
+(51, 15, 'butterfly', 'Colorfull butterfly', 15000.00, '66f876bb0afcf.jpg', '2024-09-30 22:35:28', 'Papillon', 'available', '2024-10-16 02:08:06'),
+(56, 15, 'Sparrow', 'Bbay sparrow', 1500.00, '66f876bb0afcf.jpg', '2024-10-02 00:47:32', 'cute', 'available', '2024-10-16 02:08:15'),
+(57, 9, 'Kaitlin Gonzales', 'Voluptates laboriosa', 884.00, '66f876bb0afcf.jpg', '2024-10-06 22:31:05', 'Voluptatem In exerc', 'available', '2024-10-16 02:08:22'),
+(58, 9, 'Amethyst Curtis', 'Hic voluptatem elig', 198.00, '66f876bb0afcf.jpg', '2024-10-13 00:43:50', 'Eligendi commodo vol', 'available', '2024-10-16 02:42:20');
 
 -- --------------------------------------------------------
 
@@ -108,22 +165,27 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `number` varchar(255) NOT NULL,
-  `role` varchar(255) NOT NULL
+  `role` varchar(255) NOT NULL,
+  `status` enum('active','inactive') NOT NULL DEFAULT 'active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`uid`, `name`, `email`, `password`, `number`, `role`) VALUES
-(1, 'admin', 'admin@gmail.com', 'admin', '12333', 'admin'),
-(3, 'seller', 'seller@gmail.com', '123', '987978', 'seller'),
-(9, 'Ameera', 'ameerausman200116@gmail.com', '12345', '235557788', 'seller'),
-(11, 'lili', 'ameera@gmail.com', '12345', '2132576', 'seller'),
-(12, 'neelam', 'neelam@gmail.com', '123', '42353652', 'seller'),
-(13, 'meme', 'meme@gmail.com', 'meme', '1234', 'seller'),
-(14, 'kawa', 'kawa@gmail.com', '12345', '1442546', 'buyer'),
-(15, 'Muhammad Bilal Aslam', 'BilalAslam14@gmail.com', '1234', '3534576879', 'seller');
+INSERT INTO `users` (`uid`, `name`, `email`, `password`, `number`, `role`, `status`) VALUES
+(1, 'admin', 'admin@gmail.com', 'admin', '12333', 'admin', 'active'),
+(3, 'seller', 'seller@gmail.com', '123', '987978', 'seller', 'active'),
+(9, 'Ameera', 'ameerausman200116@gmail.com', '12345', '235557788', 'seller', 'active'),
+(11, 'lili', 'ameera@gmail.com', '12345', '2132576', 'seller', 'active'),
+(12, 'neelam', 'neelam@gmail.com', '123', '42353652', 'seller', 'active'),
+(13, 'meme', 'meme@gmail.com', 'meme', '1234', 'seller', 'active'),
+(14, 'kawa', 'kawa@gmail.com', '12345', '1442546', 'buyer', 'active'),
+(15, 'Muhammad Bilal Aslam', 'BilalAslam14@gmail.com', '1234', '3534576879', 'seller', 'active'),
+(16, 'rojibatudi', 'hevikawude@mailinator.com', 'Pa$$w0rd!', '212', 'seller', 'active'),
+(17, 'sofofetad', 'jicylixy@mailinator.com', 'Pa$$w0rd!', '224', 'seller', 'active'),
+(18, 'japyza', 'bejoq@mailinator.com', 'Pa$$w0rd!', '95', 'buyer', 'active'),
+(19, 'kikuro', 'xamol@mailinator.com', 'Pa$$w0rd!', '312', 'seller', 'active');
 
 --
 -- Indexes for dumped tables
@@ -139,6 +201,12 @@ ALTER TABLE `orders`
 -- Indexes for table `order_items`
 --
 ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `reviews`
+--
+ALTER TABLE `reviews`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -161,25 +229,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+
+--
+-- AUTO_INCREMENT for table `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tblpets`
 --
 ALTER TABLE `tblpets`
-  MODIFY `petID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `petID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -2,6 +2,8 @@
 session_start();
 $id = isset($_SESSION['userid']) ? $_SESSION['userid'] : null;
 $role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
+$success_message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : null;
+$error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : null;
 
 ?>
 <!doctype html>
@@ -131,8 +133,10 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
                 ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"> <!-- Change the column size as needed -->
                     <div class="card border-0 pb-1" style="background-color:#fff3e8;;">
-                        <img class="card-img-top cursor-pointer pet-card-image" src="./uploads/<?php echo $data['image']; ?>"
-                            alt="Pets_image" onclick="window.location.href='http://localhost/pets/pet-details.php?petID=<?php echo $data['petID']; ?>'" ;>
+                        <img class="card-img-top cursor-pointer pet-card-image"
+                            src="./uploads/<?php echo $data['image']; ?>" alt="Pets_image"
+                            onclick="window.location.href='http://localhost/pets/pet-details.php?petID=<?php echo $data['petID']; ?>'"
+                            ;>
                         <div class="card-body">
                             <div class="d-flex justify-content-between  align-items-center"> <!-- Flex container -->
                                 <strong
@@ -219,7 +223,9 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
             class="lucide lucide-circle-check">
             <circle cx="12" cy="12" r="10" />
             <path d="m9 12 2 2 4-4" />
-        </svg> Pet added to cart successfully
+        </svg>
+
+        <span id="success-message">Pet added to cart successfully</span>
     </div>
     <div id="error-alert" class="alert alert-danger align-items-center gap-2 fs-7 position-fixed font-thin border-0"
         role="alert" style="display: none; bottom:20px; right:20px;">
@@ -230,7 +236,8 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
             <path d="M12 8v4" />
             <path
                 d="M15.312 2a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586l-4.688-4.688A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2z" />
-        </svg> Pet is already in the cart!
+        </svg> 
+         <span id="error-message">Pet is already in the cart!</span>
     </div>
 
 
@@ -238,77 +245,101 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
         </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const cartButtons = document.querySelectorAll('.add-to-cart-btn');
-            const cartBadge = document.getElementById('cart-badge');
-            const successAlert = document.getElementById('success-alert');
-            const errorAlert = document.getElementById('error-alert');
-            const isLoggedIn = <?php echo !empty($id) ? 'true' : 'false'; ?>;
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const cartButtons = document.querySelectorAll('.add-to-cart-btn');
+        const cartBadge = document.getElementById('cart-badge');
+        const successAlert = document.getElementById('success-alert');
+        const errorAlert = document.getElementById('error-alert');
+        const successMessage = document.getElementById('success-message');
+        const errorMessage = document.getElementById('error-message');
+        const isLoggedIn = <?php echo !empty($id) ? 'true' : 'false'; ?>;
 
-            function updateCartCount() {
-                const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
-                cartBadge.textContent = cart.length; // Update badge count with the number of items
-            }
+        // Get success and error messages from PHP (if available)
+        const phpSuccessMessage = "<?php echo isset($_SESSION['success_message']) ? $_SESSION['success_message'] : ''; ?>";
+        const phpErrorMessage = "<?php echo isset($_SESSION['error_message']) ? $_SESSION['error_message'] : ''; ?>";
 
-            // Update cart count on page load
+        // Function to show and hide notifications
+        function showNotification(type, message) {
+            const alert = type === 'success' ? successAlert : errorAlert;
+            const messageSpan = type === 'success' ? successMessage : errorMessage;
 
-            cartButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    if (!isLoggedIn) {
-                        // Redirect to login page if not logged in
-                        window.location.href = 'login.php';
-                        return;
-                    }
+            // Set the message dynamically
+            messageSpan.textContent = message;
 
-                    const petId = this.getAttribute('data-id');
-                    const petType = this.getAttribute('data-pet-type');
-                    const price = this.getAttribute('data-price');
-                    const breed = this.getAttribute('data-breed');
-                    const image = this.getAttribute('data-image');
+            // Show the alert
+            alert.style.display = 'flex';
 
-                    const pet = {
-                        id: petId,
-                        type: petType,
-                        price: price,
-                        breed: breed,
-                        image
-                    };
+            // Hide the alert after 3 seconds
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
 
-                    // Get existing cart items from localStorage
-                    let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+        // Show toast if PHP messages exist
+        if (phpSuccessMessage) {
+            showNotification('success', phpSuccessMessage);
+            <?php unset($_SESSION['success_message']); ?> // Clear message after displaying it
+        }
 
-                    // Check if the pet is already in the cart
-                    const petExists = cart.find(item => item.id === petId);
+        if (phpErrorMessage) {
+            showNotification('error', phpErrorMessage);
+            <?php unset($_SESSION['error_message']); ?> // Clear message after displaying it
+        }
 
-                    if (!petExists) {
-                        // Add the new pet to the cart
-                        cart.push(pet);
-                        localStorage.setItem('cart', JSON.stringify(cart));
-                        updateCartCount()
+        // Cart functionality
+        cartButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                if (!isLoggedIn) {
+                    // Redirect to login page if not logged in
+                    window.location.href = 'login.php';
+                    return;
+                }
 
-                        // Show success notification
-                        showNotification('success');
-                    } else {
-                        // Show error notification
-                        showNotification('error');
-                    }
-                });
+                const petId = this.getAttribute('data-id');
+                const petType = this.getAttribute('data-pet-type');
+                const price = this.getAttribute('data-price');
+                const breed = this.getAttribute('data-breed');
+                const image = this.getAttribute('data-image');
+
+                const pet = {
+                    id: petId,
+                    type: petType,
+                    price: price,
+                    breed: breed,
+                    image
+                };
+
+                // Get existing cart items from localStorage
+                let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+
+                // Check if the pet is already in the cart
+                const petExists = cart.find(item => item.id === petId);
+
+                if (!petExists) {
+                    // Add the new pet to the cart
+                    cart.push(pet);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartCount();
+
+                    // Show success notification
+                    showNotification('success', "Pet added to cart successfully");
+                } else {
+                    // Show error notification
+                    showNotification('error', "Pet is already in the cart!");
+                }
             });
-
-            // Function to show and hide notifications
-            function showNotification(type) {
-                const alert = type === 'success' ? successAlert : errorAlert;
-
-                alert.style.display = 'flex';  // Show the alert
-
-                // Hide the alert after 3 seconds
-                setTimeout(() => {
-                    alert.style.display = 'none';
-                }, 3000);
-            }
         });
-    </script>
+
+        // Update cart count on page load
+        function updateCartCount() {
+            const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+            cartBadge.textContent = cart.length; // Update badge count with the number of items
+        }
+
+        updateCartCount(); // Call it initially to load the cart count
+    });
+</script>
 
 </body>
 
