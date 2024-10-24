@@ -8,11 +8,19 @@ if (isset($_POST['login-btn'])) {
     $run = mysqli_query($db, $query);
     if (mysqli_num_rows($run) >= 1) {
         $data = mysqli_fetch_assoc($run);
-        if ($data['role'] == 'admin') {
+
+        // Check if the user status is 'blocked' or inactive
+        if ($data['status'] != 'active') {
+            // If the user is blocked or inactive, show an alert and exit
+            echo "<div class='alert alert-danger mb-0 mt-3'>User is blocked</div>";
+        }
+
+        if ($data['role'] == 'admin' && $data['status'] === 'active') {
             $_SESSION['email'] = $email;
+            $_SESSION['role'] = $data['role'];
             $_SESSION['userid'] = $data['uid'];
-            header("location:admin/index.php");
-        } else {
+            header("location:admin/dashboard.php");
+        } else if ($data['status'] === 'active') {
             $_SESSION['email'] = $email;
             $_SESSION['userid'] = $data['uid'];
             $_SESSION['role'] = $data['role'];

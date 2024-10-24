@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php';
+require_once '../db.php';
 $petID = $_GET['petID'];
 
 // Check if the form has been submitted
@@ -104,7 +104,7 @@ if (isset($_POST['update-btn'])) {
 </head>
 
 <body>
-    <?php require_once 'nav.php'; //Include Navigation bar ?>
+    <?php require_once '../nav.php'; //Include Navigation bar ?>
 
     <div class="container mt-5">
         <?php
@@ -160,7 +160,7 @@ if (isset($_POST['update-btn'])) {
     </div>
 
 
-    <?php require_once 'footer.php'; //Include Footer ?>
+    <?php require_once '../footer.php'; //Include Footer ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
         </script>

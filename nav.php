@@ -47,6 +47,10 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
                         <a class="nav-link fs-accent btn px-4 py-2" href="view-user.php"> View Users</a>
 
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link fs-accent btn px-4 py-2" href="view-pets.php"> View Pets</a>
+
+                    </li>
 
                 <?php endif; ?>
 
