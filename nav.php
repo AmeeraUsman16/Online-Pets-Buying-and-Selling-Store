@@ -17,7 +17,7 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
             <ul class="navbar-nav ">
                 <li class="nav-item">
                     <a class="nav-link fs-accent btn px-4 py-2 <?= ($current_page == 'index.php') ? 'underline active' : '' ?>"
-                        href="index.php">Home</a>
+                        href="<?= ($role == 'admin') ? 'dashboard.php' : 'index.php' ?>">Home</a>
                 </li>
                 <?php if ($role === 'seller'): ?>
                     <li class="nav-item">
