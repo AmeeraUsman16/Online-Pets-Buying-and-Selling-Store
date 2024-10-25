@@ -36,6 +36,12 @@ if (!$pet) {
     exit;
 }
 
+// Check if the pet status is blocked
+if ($pet['status'] === 'blocked') {
+    header("Location: 404.php");
+    exit;
+}
+
 // Check if the user is a buyer and has bought the pet
 $hasBoughtPet = false;
 

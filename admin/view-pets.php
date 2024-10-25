@@ -1,7 +1,24 @@
 <?php
 session_start();
+require_once '../db.php';
+
 $id = $_SESSION['userid'];
+
+// Check for status update request
+if (isset($_POST['petID']) && isset($_POST['current_status'])) {
+    $petID = $_POST['petID'];
+    $current_status = $_POST['current_status'];
+
+    // Toggle status
+    $new_status = ($current_status === 'available') ? 'blocked' : 'available';
+    $toggleQuery = "UPDATE tblpets SET status='$new_status' WHERE petID='$petID'";
+    $run = mysqli_query($db, $toggleQuery);
+}
+
+// Get the current page name for redirection
+$current_page = basename($_SERVER['PHP_SELF']);
 ?>
+
 <!doctype html>
 <html lang="en">
 
@@ -87,7 +104,6 @@ $id = $_SESSION['userid'];
 <body>
     <?php
     require_once '../nav.php';
-    require_once '../db.php';
     ?>
 
     <div class="mt-4">
@@ -117,7 +133,7 @@ $id = $_SESSION['userid'];
 
                         <div class="icon-box pe-3 pt-3">
                             <a href="edit-pets.php?petID=<?php echo $data['petID']; ?>">
-                              <i class="fas fa-pen"
+                                <i class="fas fa-pen"
                                     style="font-size:16px;color:grey;margin-right:16px;align-items: center;"></i></a>
 
                             <div class="icon-box2">
@@ -126,7 +142,15 @@ $id = $_SESSION['userid'];
                             </div>
                             <div style="font-size:18px;color:grey;margin-left:16px;align-items:center;">
 
-                            <i id="toggle-icon" class="fas fa-times-circle icon"></i>
+                                <!-- Toggle Icon and Form for Blocking/Unblocking Pets -->
+                                <form method="POST" action="<?php echo $current_page; ?>" class="d-inline">
+                                    <input type="hidden" name="petID" value="<?php echo $data['petID']; ?>">
+                                    <input type="hidden" name="current_status" value="<?php echo $data['status']; ?>">
+                                    <button type="submit" class="btn btn-link p-0 mb-2">
+                                        <i
+                                            class="fas <?php echo $data['status'] !== 'blocked' ? 'text-danger fa-times-circle' : 'text-success fa-check-circle'; ?> icon"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
 
@@ -138,42 +162,25 @@ $id = $_SESSION['userid'];
         <!-- </table> -->
         <?php
 
+        // Handling delete
         if (isset($_GET['delete'])) {
             $delete = $_GET['delete'];
             $dellQuerry = "DELETE FROM tblpets WHERE petID='$delete'";
-            $run = mysqli_query(mysql: $db, query: $dellQuerry);
+            $run = mysqli_query($db, $dellQuerry);
             if ($run) {
-                echo "<div class='alert alert-danger mb-0 mt-3' style='border-radius: 27px;>DELETE</div>";
+                echo "<div class='alert alert-danger mb-0 mt-3' style='border-radius: 27px;'>DELETE</div>";
             } else {
                 echo "<div class='alert alert-danger mb-0 mt-3' style='border-radius: 27px;'>Something went wrong</div>";
             }
-        } ?>
+        }
+        ?>
+
     </div>
     <?php require_once '../footer.php'; //Include Foot ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-       
-       </script>
 
-
-<script>
-        const icon = document.getElementById('toggle-icon');
-
-        icon.addEventListener('click', function() {
-            // Toggle between block and unblock icons
-            if (icon.classList.contains('fa-times-circle')) {
-                icon.classList.remove('fa-times-circle');
-                icon.classList.add('fa-check-circle');
-            } else {
-                icon.classList.remove('fa-check-circle');
-                icon.classList.add('fa-times-circle');
-            }
-        });
-    </script>
-
-
-
-     
+        </script>
 </body>
 
 </html>
