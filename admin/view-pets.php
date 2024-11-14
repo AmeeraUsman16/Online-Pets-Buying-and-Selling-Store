@@ -101,7 +101,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 </head>
 
-<body>
+<body style="background-color: rgb(245, 248, 250);"> 
     <?php
     require_once '../nav.php';
     ?>
@@ -117,7 +117,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 
             <div class="container pets-wrapper">
-                <div class='d-flex pet-item bg-grayv1 p-1 rounded w-100'>
+                <div class='d-flex pet-item  p-1 rounded w-100' style="background:#D3D3D3">
                     <div style="max-width:200px;max-height:200px" class="p-2">
                         <img class="rounded card-img-top pet-card-image p-0" src="../uploads/<?php echo $data['image']; ?>"
                             alt="Pets_image">

@@ -86,7 +86,7 @@ if(isset($_POST['add-btn'])){
 
     </head>
 
-<body>
+<body style="background-color: rgb(245, 248, 250);">
     <?php  require_once 'nav.php' //Include Navigation bar?>
     
     
@@ -127,7 +127,7 @@ if(isset($_POST['add-btn'])){
             <div class="mb-0">
                 <!-- <button type="submit" name="add-btn" class="btn btn-dark p-3 px-5" style="border-radius: 27px;">Add</button> -->
                 <button type="submit" name="add-btn" 
-                class="btn text-white py-2 px-5 button-30" style="border-radius: 8px;background: #FF6F61">Add</button>
+                class="btn text-white py-2 px-5 button-30" style="border-radius: 8px;background: #da70d6">Add</button>
             </div>
         </form>
     </div>

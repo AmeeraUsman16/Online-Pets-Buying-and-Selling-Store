@@ -68,7 +68,7 @@ $totalRevenue = $revenueResult->fetch_assoc()['totalRevenue'];
 
 </head>
 
-<body>
+<body style="background-color: rgb(245, 248, 250);">
     <?php require_once '../nav.php' //Include Navigation bar ?>
 
 

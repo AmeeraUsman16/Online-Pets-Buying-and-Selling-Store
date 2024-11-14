@@ -133,7 +133,7 @@ if ($stmt = $db->prepare($reviewQuery)) {
     </style>
 </head>
 
-<body>
+<body style="background-color: rgb(245, 248, 250);">
 
     <?php include 'nav.php'; ?>
 
@@ -158,7 +158,7 @@ if ($stmt = $db->prepare($reviewQuery)) {
                     <p class="mt-3 text-secondary"><?php echo htmlspecialchars($pet['description']); ?></p>
                     <?php if ($role === 'buyer'): ?>
                         <div class="d-flex align-items-center mt-5">
-                            <button class="btn text-white  button-30" style="background: #FF6F61">Add to Cart</button>
+                            <button class="btn text-white  button-30" style="background: #da70d6">Add to Cart</button>
                         </div>
                     <?php endif; ?>
 
@@ -186,7 +186,7 @@ if ($stmt = $db->prepare($reviewQuery)) {
                     <textarea name="review" required class='form-control' cols='2'></textarea>
                     <div class="d-flex align-items-center mt-3 d-flex justify-content-end">
                         <button type="submit" name='review-button' class="btn text-white button-30"
-                            style="background: #FF6F61">Submit</button>
+                            style="background: #da70d6">Submit</button>
                     </div>
                 </form>
             <?php endif; ?>

@@ -111,13 +111,13 @@ $error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] 
     </style>
 </head>
 
-<body>
+<body style="background-color: rgb(245, 248, 250);">
     <?php
     require_once 'nav.php';
     require_once 'db.php';
     ?>
-    <!-- <img class="w-100" src="./assets/images/animals-pets-banner.jpg" alt=""> -->
-    <img class="w-100" style="max-height:500px" src="./assets/images/Pink-Green2.png" alt="Pink_Green_banne">
+    <!-- <img class="w-100" src="./assets/images/animals-pet_banner.jpg" alt=""> -->
+    <img class="w-100" style="max-height:500px;" src="./assets/images/pet_banner.png" alt="pet_banner">
     <div class="container">
         <h1 class="fw-bold text-grayv1 text-center mt-5 mb-4">Meet Your Next Best Friend</h1>
     </div>
@@ -132,7 +132,7 @@ $error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] 
                 $count++;
                 ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4"> <!-- Change the column size as needed -->
-                    <div class="card border-0 pb-1" style="background-color:#fff3e8;;">
+                    <div class="card border-0 pb-1" style="background-color:rgba(221, 160, 221, 0.3);">
                         <img class="card-img-top cursor-pointer pet-card-image"
                             src="./uploads/<?php echo $data['image']; ?>" alt="Pets_image"
                             onclick="window.location.href='http://localhost/pets/pet-details.php?petID=<?php echo $data['petID']; ?>'"

@@ -73,12 +73,12 @@ $id = $_SESSION['userid'];
             position: relative;
             text-align: left;
             text-decoration: none;
-            transition: box-shadow .15s, transform .15s;
+            /* transition: box-shadow .15s, transform .15s; */
             user-select: none;
             -webkit-user-select: none;
             touch-action: manipulation;
             white-space: nowrap;
-            will-change: box-shadow, transform;
+            /* will-change: box-shadow, transform; */
             font-size: 18px;
             max-width: 400px;
         }
@@ -99,7 +99,7 @@ $id = $_SESSION['userid'];
     </style>
 </head>
 
-<body>
+<body style="background-color: rgb(245, 248, 250);">
     <!-- Navigation Bar -->
     <?php require_once 'nav.php'; ?>
 

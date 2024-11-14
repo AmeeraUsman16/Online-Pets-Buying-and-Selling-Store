@@ -70,7 +70,7 @@ $id = $_SESSION['userid'];
   </style>
 </head>
 
-<body>
+<body style="background-color: rgb(245, 248, 250);">
   <?php
   require_once 'nav.php';
   require_once 'db.php';
@@ -87,7 +87,7 @@ $id = $_SESSION['userid'];
         ?>
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" style="margin-top:70px">
           <!-- Change the column size as needed -->
-          <div class="card border-0 pb-1" style="background-color:#fff3e8">
+          <div class="card border-0 pb-1" style="background-color:rgba(221, 160, 221, 0.3);">
             <img class="card-img-top pet-card-image" src="./uploads/<?php echo $data['image']; ?>" alt="Pets_image">
             <div class="card-body">
               <div class="d-flex justify-content-between  align-items-center"> <!-- Flex container -->

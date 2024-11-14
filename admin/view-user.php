@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_status'])) {
     </style>
 </head>
 
-<body>
+<body style="background-color: rgb(245, 248, 250);">
     <?php
     require_once '../nav.php';
     require_once '../db.php';
@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_status'])) {
                             <td><?php echo $data['number'] ?></td>
                             <td>
                                 <a href="edit-user.php?id=<?php echo $data['uid']; ?>" class="button-30"
-                                    style="background: #FF6F61">Edit</a>
+                                    style="background: #da70d6">Edit</a>
 
 
                                 <form method="POST" style="display:inline;">

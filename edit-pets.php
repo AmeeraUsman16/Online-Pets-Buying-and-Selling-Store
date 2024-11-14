@@ -103,7 +103,7 @@ if (isset($_POST['update-btn'])) {
     </style>
 </head>
 
-<body>
+<body style="background-color: rgb(245, 248, 250);">
     <?php require_once 'nav.php'; //Include Navigation bar ?>
 
     <div class="container mt-5">
@@ -152,7 +152,7 @@ if (isset($_POST['update-btn'])) {
 
                     <div class="mb-0">
                         <button type="submit" name="update-btn" class="button-30 "
-                        style="background: #FF6F61;border-radius: 10px;">UPDATE</button>
+                        style="background: #da70d6;border-radius: 10px;">UPDATE</button>
                     </div>
                 </form>
             </div>

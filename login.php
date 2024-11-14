@@ -72,54 +72,11 @@ if (isset($_POST['login-btn'])) {
             align-items: center;
         }
 
-        .button-30 {
-            align-items: center;
-            appearance: none;
-            background-color: #FAF0E6;
-            border-radius: 4px;
-            border-width: 0;
-            box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #4F000000 0 -3px 0 inset;
-            box-sizing: border-box;
-            color: white;
-            cursor: pointer;
-            display: inline-flex;
-            font-family: 'Roboto', sans-serif;
-            height: 48px;
-            justify-content: center;
-            line-height: 1;
-            list-style: none;
-            overflow: hidden;
-            padding-left: 16px;
-            padding-right: 16px;
-            position: relative;
-            text-align: left;
-            text-decoration: none;
-            transition: box-shadow .15s, transform .15s;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: manipulation;
-            white-space: nowrap;
-            will-change: box-shadow, transform;
-            font-size: 18px;
-        }
-
-        .button-30:focus {
-            box-shadow: #4F000000 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #4F000000 0 -3px 0 inset;
-        }
-
-        .button-30:hover {
-            box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #4F000000 0 -3px 0 inset;
-            transform: translateY(-2px);
-        }
-
-        .button-30:active {
-            box-shadow: #4F000000 0 3px 7px inset;
-            transform: translateY(2px);
-        }
+      
     </style>
 </head>
 
-<body>
+<body style="background-color: rgb(245, 248, 250);">
     <?php require_once 'nav.php' //Include Navigation bar ?>
     <div class="container mt-20 " style="margin-bottom:150px;margin-top:130px;">
         <div class="container mt-5 div-form text-secondary">
@@ -139,8 +96,8 @@ if (isset($_POST['login-btn'])) {
                 </div>
 
                 <div class="mb-0">
-                    <button type="submit" name="login-btn" style="background: #FF6F61"
-                        class="btn text-white py-2 px-5 button-30" style="border-radius: 8px;">Login</button>
+                    <button type="submit" name="login-btn" style="background: #da70d6"
+                        class="btn text-white py-2 px-5 " style="border-radius: 8px;">Login</button>
                     <!-- <button class="button-30" role="button" type="submit" name="login-btn" >Add</button> -->
                 </div>
             </form>

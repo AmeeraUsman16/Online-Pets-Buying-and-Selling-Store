@@ -6,11 +6,11 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
 
 ?>
 
-<nav class="navbar position-sticky top-0 navbar-expand-lg bg-body-tertiary pt-1" style="margin-top:-10px; z-index: 100;">
+<nav class="navbar position-sticky top-0 navbar-expand-lg bg-body-tertiary pt-1" style="margin-top:-10px; z-index: 100;height:70px">
     <div class="container-fluid" style="background-color: white;">
         <a class="navbar-brand" href="index.php"
-            style="background-color: #FF6F61; color: white; font-weight: bold; padding:20px; border-radius: 5px;">
-            Pet's Heaven
+            style="font-weight: bold; padding:20px; border-radius: 5px;">
+            Pet's Heaven  <img src="assets/images/petLogo.jpg" style="height:40px" alt="pet Logo">
         </a>
 
         <div class="collapse navbar-collapse " id="navbarSupportedContent">
@@ -98,6 +98,16 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
 
             </ul>
         </div>
+        <div class="search-bar">
+  <input type="text" placeholder="Search...">
+  <button type="submit">
+  <i class="fa fa-search" style="font-size:24px;color:gray"></i>
+  </button>
+</div>
+
+   
+
+        
         <?php if ($role === 'buyer' || $role === 'seller'): ?>
             <div class='d-flex align-items-center gap-2'>
                 <div class='ms-4 me-3 rounded-pill text-gray d-flex align-items-center'>
@@ -122,6 +132,9 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
             </div>
         <?php endif; ?>
 
+     
+
+
     </div>
 </nav>
 
@@ -142,3 +155,42 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
         // when the cart changes (e.g., after adding or removing an item from cart).
     });
 </script>
+
+<head>
+<title>Font Awesome Icons</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<style>
+  .search-bar {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    margin: 20px auto;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    padding: 5px;
+    background-color: white;
+    margin-bottom: 7px;
+  }
+
+  .search-bar input {
+    border: none;
+    outline: none;
+    padding: 5px;
+    font-size: 16px;
+    flex: 1;
+  }
+
+  .search-bar button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #555;
+  }
+
+  .search-bar button:hover {
+    color: #333;
+  }
+</style>

@@ -142,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 
-<body>
+<body style="background-color: rgb(245, 248, 250);">
     <?php require_once 'nav.php'; //Include Navigation bar ?>
     <div class="body-style">
         <div class="container mt-4">

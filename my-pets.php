@@ -84,7 +84,7 @@ $id = $_SESSION['userid'];
 
 </head>
 
-<body>
+<body style="background-color: rgb(245, 248, 250);">
     <?php
     require_once './nav.php';
     require_once './db.php';

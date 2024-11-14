@@ -71,7 +71,7 @@ $uid = $_SESSION['userid'];
 
 </head>
 
-<body>
+<body style="background-color: rgb(245, 248, 250);">
     <?php require_once 'nav.php'; //Include Navigation bar ?>
     <div class="container mt-5" style="margin-bottom:70px">
         <h1 class="fw-bold text-grayv1 fs-2 text-center mt-5 mb-4">Order Details</h1>
@@ -104,7 +104,7 @@ $uid = $_SESSION['userid'];
                     <label for="phone">03xx-xxxxxxx</label>
                 </div>
                 <div class="mb-0">
-                    <button style="background: #FF6F61" class="button-30" id="proceedButton" type="button"
+                    <button style="background: #da70d6" class="button-30" id="proceedButton" type="button"
                         role="button">Proceed</button>
                 </div>
             </form>

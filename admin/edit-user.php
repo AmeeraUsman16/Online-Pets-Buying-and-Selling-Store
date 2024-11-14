@@ -91,7 +91,7 @@ if (isset($_POST['delete-btn'])) {
     </style>
 </head>
 
-<body>
+<body style="background-color: rgb(245, 248, 250);">
 <?php  
         require_once '../nav.php';
         require_once '../db.php';
@@ -124,8 +124,8 @@ if (isset($_POST['delete-btn'])) {
                     <label for="floatingnumber">Number</label>
                 </div>
                 <div class="mb-0">
-                    <button type="submit" name="update-btn" class="btn  button-30" style="background: #FF6F61">Update</button>
-                    <button type="submit" name="delete-btn" class="btn  button-30" style="background: #FF6F61">Delete</button>
+                    <button type="submit" name="update-btn" class="btn  button-30" style="background: #da70d6">Update</button>
+                    <button type="submit" name="delete-btn" class="btn  button-30" style="background: #da70d6">Delete</button>
                 </div>
             </form>      
         </div>
