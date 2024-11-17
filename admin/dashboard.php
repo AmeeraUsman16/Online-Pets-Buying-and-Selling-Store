@@ -1,6 +1,10 @@
 <?php
 session_start();
 require_once '../db.php';
+if ($_SESSION['role'] !== 'admin') {
+    header("Location: /pets");
+    exit(); // Ensure the script stops here after redirection
+}
 
 // Get the filter from the URL parameters, default to 'all-time'
 $filter = isset($_GET['filter']) ? $_GET['filter'] : 'all-time';
@@ -65,6 +69,9 @@ $totalRevenue = $revenueResult->fetch_assoc()['totalRevenue'];
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
 
 </head>
 

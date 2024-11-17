@@ -60,7 +60,9 @@ if (isset($_POST['add-btn'])) {
     <link rel="stylesheet" href="./assets/css/index.css">
 
  
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
 
 
 </head>
@@ -68,39 +70,40 @@ if (isset($_POST['add-btn'])) {
 <body style="background-color: rgb(245, 248, 250);">
     <?php require_once 'nav.php'; //Include Navigation bar ?>
     <div class="container mt-5">
-        <div class="container mt-5 div-form text-secondary">
+        <div class="container div-form text-secondary pt-1 mt-4">
+            <h3 class='text-grayv1'>Add A Pet</h3>
             <!-- Add enctype="multipart/form-data" to enable file uploads -->
-            <form action="" method="post" enctype="multipart/form-data">
+            <form action="" method="post" enctype="multipart/form-data" class='mt-4'>
                 <div class="form-floating mb-3">
                     <input required="true" type="text" name="petType" class="form-control" id="floatingInputType"
-                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px;width:700px;"
+                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px; max-width: 700px;"
                         placeholder="Type" required>
                     <label for="floatingInputType">Name</label>
                 </div>
                 <div class="form-floating mb-3">
                     <input required="true" type="text" name="description" class="form-control"
                         id="floatingInputDescription"
-                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px;width:700px;"
+                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px; max-width: 700px;"
                         placeholder="Description" required>
                     <label for="floatingInputDescription">Description</label>
                 </div>
                 <div class="form-floating mb-3">
                     <input required="true" min="0" step="0.01" type="number" name="price" class="form-control"
                         id="floatingInputPrice"
-                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px;width:700px;"
+                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px; max-width: 700px;"
                         placeholder="Price" required>
                     <label for="floatingInputPrice">Price</label>
                 </div>
                 <div class="form-floating pt-0 mb-3">
                     <!-- Change this input to accept file uploads -->
                     <input type="file" name="image" class="form-control pt-3" id="floatingInputImage"
-                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px;width:700px;" accept="image/*"
+                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px; max-width: 700px;" accept="image/*"
                         required>
                     <!-- <label for="floatingInputImage">Upload Image</label> -->
                 </div>
                 <div class="form-floating mb-3">
                     <input required="true" type="text" name="breed" class="form-control" id="floatingInputBreed"
-                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px;width:700px;"
+                        style="border: none; border: 1px solid #cdcdcd; border-radius:8px; max-width: 700px;"
                         placeholder="Breed" required>
                     <label for="floatingInputBreed">Breed</label>
                 </div>
@@ -115,9 +118,7 @@ if (isset($_POST['add-btn'])) {
     </div>
     <?php require_once './footer.php'; //Include Foot ?>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-        </script>
+    
 </body>
 
 </html>

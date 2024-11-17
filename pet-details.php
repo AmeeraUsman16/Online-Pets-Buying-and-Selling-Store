@@ -32,7 +32,7 @@ if ($petID) {
 
 // If the pet data is not found
 if (!$pet) {
-    echo "<div class='alert alert-danger mb-0 mt-3'>Pet not found!</div>";
+    header("Location: 404.php");
     exit;
 }
 
@@ -158,7 +158,11 @@ if ($stmt = $db->prepare($reviewQuery)) {
                     <p class="mt-3 text-secondary"><?php echo htmlspecialchars($pet['description']); ?></p>
                     <?php if ($role === 'buyer'): ?>
                         <div class="d-flex align-items-center mt-5">
-                            <button class="btn text-white  button-30" style="background: #da70d6">Add to Cart</button>
+                            <button class="btn text-white  button-30 add-to-cart-btn" style="background: #da70d6"
+                            data-id="<?php echo $data['petID']; ?>" data-pet-type="<?php echo $data['petType']; ?>"
+                                        data-price="<?php echo $data['price']; ?>" data-breed="<?php echo $data['breed']; ?>"
+                                        data-image="<?php echo $data['image']; ?>"
+                            >Add to Cart</button>
                         </div>
                     <?php endif; ?>
 
@@ -182,6 +186,8 @@ if ($stmt = $db->prepare($reviewQuery)) {
 
             <!-- Only show the form to the buyer if no review exists and they have bought the pet -->
             <?php if ($role === 'buyer' && $hasBoughtPet && empty($review)): ?>
+                <h3 class='text-gray'>Leave a Review</h3>
+
                 <form method="POST" action="">
                     <textarea name="review" required class='form-control' cols='2'></textarea>
                     <div class="d-flex align-items-center mt-3 d-flex justify-content-end">
@@ -223,11 +229,13 @@ if ($stmt = $db->prepare($reviewQuery)) {
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script>
+         const cartButtons = document.querySelectorAll('.add-to-cart-btn');
+         const cartBadge = document.getElementById('cart-badge');
         const successAlert = document.getElementById('success-alert');
         const errorAlert = document.getElementById('error-alert');
         const successMessage = document.getElementById('success-message');
         const errorMessage = document.getElementById('error-message');
-
+        const isLoggedIn = <?php echo !empty($id) ? 'true' : 'false'; ?>;
 
         // Get success and error messages from PHP (if available)
         const phpSuccessMessage = "<?php echo isset($_SESSION['success_message']) ? $_SESSION['success_message'] : ''; ?>";
@@ -260,6 +268,57 @@ if ($stmt = $db->prepare($reviewQuery)) {
             showNotification('error', phpErrorMessage);
             <?php unset($_SESSION['error_message']); ?> // Clear message after displaying it
         }
+
+         cartButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                if (!isLoggedIn) {
+                    // Redirect to login page if not logged in
+                    window.location.href = 'login.php';
+                    return;
+                }
+
+                const petId = this.getAttribute('data-id');
+                const petType = this.getAttribute('data-pet-type');
+                const price = this.getAttribute('data-price');
+                const breed = this.getAttribute('data-breed');
+                const image = this.getAttribute('data-image');
+
+                const pet = {
+                    id: petId,
+                    type: petType,
+                    price: price,
+                    breed: breed,
+                    image
+                };
+
+                // Get existing cart items from localStorage
+                let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+
+                // Check if the pet is already in the cart
+                const petExists = cart.find(item => item.id === petId);
+
+                if (!petExists) {
+                    // Add the new pet to the cart
+                    cart.push(pet);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartCount();
+
+                    // Show success notification
+                    showNotification('success', "Pet added to cart successfully");
+                } else {
+                    // Show error notification
+                    showNotification('error', "Pet is already in the cart!");
+                }
+            });
+        });
+
+        // Update cart count on page load
+        function updateCartCount() {
+            const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+            cartBadge.textContent = cart.length; // Update badge count with the number of items
+        }
+
+        updateCartCount(); // Call it initially to load the cart count
     </script>
 </body>
 

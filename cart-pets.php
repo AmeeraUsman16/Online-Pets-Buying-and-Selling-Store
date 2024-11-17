@@ -173,6 +173,13 @@ $id = $_SESSION['userid'];
                 } else {
                     cartTableBody.innerHTML = '<tr><td colspan="4" class="text-center">No pets in your cart.</td></tr>';
                 }
+
+                const checkoutButton = document.getElementById('checkout-button');
+                if (cart.length === 0) {
+                    checkoutButton.style.display = 'none'; // Hide checkout button if cart is empty
+                } else {
+                    checkoutButton.style.display = 'flex'; // Show checkout button if cart has items
+                }
             }
 
             // Initialize the cart on page load
@@ -186,6 +193,8 @@ $id = $_SESSION['userid'];
             localStorage.setItem('cart', JSON.stringify(cart)); // Update localStorage
             document.dispatchEvent(new Event('DOMContentLoaded')); // Trigger re-populating of cart
         }
+
+
     </script>
 
     <?php require_once './footer.php'; //Include Footer ?>
