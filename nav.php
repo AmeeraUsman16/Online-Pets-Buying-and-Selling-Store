@@ -97,7 +97,7 @@ $role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
 
 
             </ul>
-        </div>
+        </div> 
         <div class="search-bar">
   <input type="text" placeholder="Search...">
   <button type="submit">

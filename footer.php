@@ -1,7 +1,7 @@
   <!-- Remove the container if you want to extend the Footer to full width. -->
 
   <!-- Footer -->
-  <footer class="text-center mt-5" style="background-color:rgba(0, 0, 0, 0.3);">
+  <footer class="text-center mt-5" style="background-color:#2d3246; color: rgba(255, 255, 255, 0.8);">
     <!-- Grid container -->
     <div class="container" >
    <!-- Section: Text -->
