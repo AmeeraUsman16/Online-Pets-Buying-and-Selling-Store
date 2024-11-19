@@ -18,7 +18,9 @@ $id = $_SESSION['userid'];
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/index.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
     <style>
         .pet-card-image {
             width: 100%;
@@ -91,6 +93,8 @@ $id = $_SESSION['userid'];
     ?>
 
     <div class="mt-4">
+    <h3 class='text-grayv1 mt-5 pt-3 text-center   container'  style="max-width:fit-content; margin: 0 auto">My Pets</h3>
+
         <?php
         $select = "SELECT*FROM tblpets WHERE sellerId='$id'";
         $run = mysqli_query($db, $select);
@@ -146,9 +150,7 @@ $id = $_SESSION['userid'];
         } ?>
     </div>
     <?php require_once './footer.php'; //Include Foot ?>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-        </script>
+  
 </body>
 
 </html>

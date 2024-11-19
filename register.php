@@ -9,14 +9,14 @@ if(isset($_POST['add-btn'])){
     
     $check_email = $db->query("SELECT * FROM users WHERE email = '$email'");
     if($check_email->num_rows > 0){
-        echo "<div class='alert alert-warning mb-0 mt-3'>Email already exists</div>";
+        echo "<div class='alert alert-warning mb-0 mt-3 mb-3'>Email already exists</div>";
     }else{
         $insert = $db->query("INSERT INTO users (name,email,password,number,role) 
         VALUES ('$name','$email','$password','$number','$role')");
         if($insert){
-            echo "<div class='alert alert-success mb-0 mt-3'>New account has been Created</div>";
+            echo "<div class='alert alert-success mb-0 mt-3 mb-3'>New account has been Created</div>";
         }else{
-            echo "<div class='alert alert-danger mb-0 mt-3'>Something went wrong</div>";
+            echo "<div class='alert alert-danger mb-0 mt-3 mb-3'>Something went wrong</div>";
         }
     }
 }

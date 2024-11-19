@@ -2,9 +2,23 @@
   font-family: 'Roboto', sans-serif;
 }
 
+
+/* Apply margin-bottom: 100px for all   screen sizes */
+nav {
+  margin-bottom: 0 !important;
+}
+
+/* Remove margin-bottom when the viewport is at or larger than the 'lg' breakpoint */
+@media (max-width: 700px) {
+  nav {
+    margin-bottom: 150px !important ; /* Reset margin for large screens and up */
+  }
+}
+
 .text-gray {
   color: #636363;
 }
+
 
 .text-grayv1 {
   color: #4f4f4f;

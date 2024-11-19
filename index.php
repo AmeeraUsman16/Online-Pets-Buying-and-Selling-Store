@@ -147,7 +147,7 @@ $error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] 
                             <!-- <p class="card-text"><?php echo $data['description']; ?></p> -->
                             <!-- <a href="#" class="button-39" role="button" style="margin-left:50px;">Buy</a> -->
 
-                            <?php if ($role !== 'seller'): ?>
+                            <?php if ($role !== 'seller' && $role !== 'admin'): ?>
                                 <div class="d-flex justify-content-end">
                                     <button class="button-39 py-2.5 mt-0 border-0 text-gray add-to-cart-btn"
                                         data-id="<?php echo $data['petID']; ?>" data-pet-type="<?php echo $data['petType']; ?>"
@@ -168,11 +168,11 @@ $error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] 
 
 
     <div class="container d-flex justify-content-between mt-5">
-        <div class="row">
-            <div class="col-6">
+        <div class="row g-3">
+            <div class="col-sm-6 col-12">
                 <img id="myImg" src="./assets/images/dog.webp" alt="pet_dog" class="w-100 image-hover-effect">
             </div>
-            <div class="col-6 ps-5">
+            <div class="col-sm-6 col-12 ps-sm-5">
                 <h3 class="fs-2 fw-medium text-grayv1">Pets for Any Need</h3>
                 <p class="fs-6 text-gray">We take great satisfaction in offering a broad and diverse range of products
                     to meet
@@ -188,7 +188,7 @@ $error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] 
     <div class="container mt-5 align-items-center">
         <div class="row align-items-center justify-content-between">
 
-            <div class="col-7">
+            <div class="col-sm-7 col-12">
                 <h3 class='text-grayv1 fs-2'>How It Works: Simple Steps to Buy or Sell a Pet</h3>
                 <p class='text-gray'>Buying or selling pets on Pet's Heaven is simple and straightforward.
                     Whether you're looking for a new furry friend or a loving home for your pet,
@@ -203,7 +203,7 @@ $error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] 
                     you can arrange the sale and ensure your pet goes to a loving home.</p>
             </div>
 
-            <div class="col-4">
+            <div class="col-sm-4 col-12">
                 <img class='w-100 rounded' src="./assets/images/image-buy-sell.webp" alt="">
             </div>
         </div>

@@ -1,6 +1,22 @@
 <?php
 session_start();
-$id = $_SESSION['userid'];
+require_once 'db.php';
+
+$id = isset($_SESSION['userid']) ? $_SESSION['userid'] : null;
+$role = isset($_SESSION['role']) ? $_SESSION['role'] : null;
+$success_message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : null;
+$error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : null;
+
+// Capture the search query parameter (if any)
+$searchText = isset($_GET['search']) ? mysqli_real_escape_string($db, $_GET['search']) : '';
+
+// Update query based on the search text
+$select = "SELECT * FROM tblpets WHERE status != 'blocked'";
+if ($searchText) {
+  $select .= " AND (petType LIKE '%$searchText%' OR breed LIKE '%$searchText%' OR price LIKE '%$searchText%')";
+}
+$run = mysqli_query($db, $select);
+$count = 0;
 ?>
 <!doctype html>
 <html lang="en">
@@ -73,44 +89,55 @@ $id = $_SESSION['userid'];
 <body style="background-color: rgb(245, 248, 250);">
   <?php
   require_once 'nav.php';
-  require_once 'db.php';
   ?>
 
-  <div class="container">
+  <div class="container mt-5" style="margin-top:20px; min-height: 250px">
     <div class="row">
+      <?php if ($searchText): ?>
+        <p class="fs-6 text-center text-danger">Showing results for
+          "<strong><?php echo htmlspecialchars($searchText); ?></strong>"</p>
+      <?php endif; ?>
+
       <?php
-      $select = "SELECT * FROM tblpets WHERE status != 'blocked'";
-      $run = mysqli_query($db, $select);
       $count = 0;
-      while ($data = mysqli_fetch_assoc($run)) {
-        $count++;
-        ?>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" style="margin-top:70px">
-          <!-- Change the column size as needed -->
-          <div class="card border-0 pb-1" style="background-color:rgba(221, 160, 221, 0.3);">
-            <img class="card-img-top pet-card-image" src="./uploads/<?php echo $data['image']; ?>" alt="Pets_image">
-            <div class="card-body">
-              <div class="d-flex justify-content-between  align-items-center"> <!-- Flex container -->
-                <strong
-                  class="card-title text-capitalize fw-normal text-gray mb-0"><?php echo $data['petType']; ?></strong>
-                <strong class="card-title text-gray fw-normal mb-0"><?php echo $data['price']; ?></strong>
+      if (mysqli_num_rows($run) > 0) { // Check if there are any results
+        while ($data = mysqli_fetch_assoc($run)) {
+          $count++;
+          ?>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" style="margin-top:20px;">
+            <!-- Change the column size as needed -->
+            <div class="card border-0 pb-1" style="background-color:rgba(221, 160, 221, 0.3);">
+              <img
+                onclick="window.location.href='http://localhost/pets/pet-details.php?petID=<?php echo $data['petID']; ?>'"
+                class="card-img-top cursor-pointer pet-card-image" src="./uploads/<?php echo $data['image']; ?>"
+                alt="Pets_image">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center"> <!-- Flex container -->
+                  <strong
+                    class="card-title text-capitalize fw-normal text-gray mb-0"><?php echo $data['petType']; ?></strong>
+                  <strong class="card-title text-gray fw-normal mb-0"><?php echo $data['price']; ?></strong>
+                </div>
+                <p class="card-text mb-3 text-capitalize fs-7 text-accent"><?php echo $data['breed']; ?></p>
+                <div class="d-flex justify-content-end">
+                  <?php if ($role !== 'seller' && $role !== 'admin'): ?>
+                    <div class="d-flex justify-content-end">
+                      <button class="button-39 py-2.5 mt-0 border-0 text-gray add-to-cart-btn"
+                        data-id="<?php echo $data['petID']; ?>" data-pet-type="<?php echo $data['petType']; ?>"
+                        data-price="<?php echo $data['price']; ?>" data-breed="<?php echo $data['breed']; ?>"
+                        data-image="<?php echo $data['image']; ?>">
+                        Add to Cart
+                      </button>
+                    </div>
+                  <?php endif; ?>
+                </div>
               </div>
-              <p class="card-text mb-3 text-capitalize fs-7 text-accent"><?php echo $data['breed']; ?></p>
-              <div class="d-flex justify-content-end">
-                <button class="button-39 py-2.5 mt-0 border-0 text-gray" role="button" href="cart-pets.php">Add to
-                  Cart</button>
-              </div>
-
-
-
-              <!-- <a href="cart-pets.php" class="btn btn-primary">Add to Cart</a> -->
             </div>
           </div>
-
-        </div>
-
-      <?php } ?>
-
+        <?php }
+      } else { // If no results found, display this message
+        echo '<p class="text-center text-danger fs-6">No results found.</p>';
+      }
+      ?>
 
     </div>
   </div>
@@ -118,7 +145,127 @@ $id = $_SESSION['userid'];
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
 
+
+  <div id="success-alert" class="alert alert-success align-items-center gap-2 fs-7 position-fixed font-thin border-0"
+    role="alert" style="display: none; bottom:20px; right:20px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check">
+      <circle cx="12" cy="12" r="10" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+
+    <span id="success-message">Pet added to cart successfully</span>
+  </div>
+  <div id="error-alert" class="alert alert-danger align-items-center gap-2 fs-7 position-fixed font-thin border-0"
+    role="alert" style="display: none; bottom:20px; right:20px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-octagon-alert">
+      <path d="M12 16h.01" />
+      <path d="M12 8v4" />
+      <path
+        d="M15.312 2a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586l-4.688-4.688A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2z" />
+    </svg>
+    <span id="error-message">Pet is already in the cart!</span>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const cartButtons = document.querySelectorAll('.add-to-cart-btn');
+      const cartBadge = document.getElementById('cart-badge');
+      const successAlert = document.getElementById('success-alert');
+      const errorAlert = document.getElementById('error-alert');
+      const successMessage = document.getElementById('success-message');
+      const errorMessage = document.getElementById('error-message');
+      const isLoggedIn = <?php echo !empty($id) ? 'true' : 'false'; ?>;
+
+      // Get success and error messages from PHP (if available)
+      const phpSuccessMessage = "<?php echo isset($_SESSION['success_message']) ? $_SESSION['success_message'] : ''; ?>";
+      const phpErrorMessage = "<?php echo isset($_SESSION['error_message']) ? $_SESSION['error_message'] : ''; ?>";
+
+      // Function to show and hide notifications
+      function showNotification(type, message) {
+        const alert = type === 'success' ? successAlert : errorAlert;
+        const messageSpan = type === 'success' ? successMessage : errorMessage;
+
+        // Set the message dynamically
+        messageSpan.textContent = message;
+
+        // Show the alert
+        alert.style.display = 'flex';
+
+        // Hide the alert after 3 seconds
+        setTimeout(() => {
+          alert.style.display = 'none';
+        }, 3000);
+      }
+
+      // Show toast if PHP messages exist
+      if (phpSuccessMessage) {
+        showNotification('success', phpSuccessMessage);
+        <?php unset($_SESSION['success_message']); ?> // Clear message after displaying it
+      }
+
+      if (phpErrorMessage) {
+        showNotification('error', phpErrorMessage);
+        <?php unset($_SESSION['error_message']); ?> // Clear message after displaying it
+      }
+
+      // Cart functionality
+      cartButtons.forEach(button => {
+        button.addEventListener('click', function () {
+          if (!isLoggedIn) {
+            // Redirect to login page if not logged in
+            window.location.href = 'login.php';
+            return;
+          }
+
+          const petId = this.getAttribute('data-id');
+          const petType = this.getAttribute('data-pet-type');
+          const price = this.getAttribute('data-price');
+          const breed = this.getAttribute('data-breed');
+          const image = this.getAttribute('data-image');
+
+          const pet = {
+            id: petId,
+            type: petType,
+            price: price,
+            breed: breed,
+            image
+          };
+
+          // Get existing cart items from localStorage
+          let cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+
+          // Check if the pet is already in the cart
+          const petExists = cart.find(item => item.id === petId);
+
+          if (!petExists) {
+            // Add the new pet to the cart
+            cart.push(pet);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+
+            // Show success notification
+            showNotification('success', "Pet added to cart successfully");
+          } else {
+            // Show error notification
+            showNotification('error', "Pet is already in the cart!");
+          }
+        });
+      });
+
+      // Update cart count on page load
+      function updateCartCount() {
+        const cart = localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [];
+        cartBadge.textContent = cart.length; // Update badge count with the number of items
+      }
+
+      updateCartCount(); // Call it initially to load the cart count
+    });
+  </script>
+
   <?php require_once './footer.php'; //Include Footer ?>
+
+
 </body>
 
 </html>

@@ -156,6 +156,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-12 mt-4">
                     <div class="card border-0 p-3 border-bottom">
                         <p class="mb-0 fw-bold h4">Payment Methods</p>
+                        <?php if ($error_message): ?>
+                            <div class="alert alert-danger mt-4" role="alert">
+                                <?php echo $error_message; ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if ($success_message): ?>
+                            <div class="alert alert-success mt-4" role="alert">
+                                <?php echo $success_message; ?>
+                                <a href="/pets/my-orders.php">Go to orders</a>
+                            </div>
+                        <?php endif; ?>
                         <div class='mt-3'>
                             <input type="radio" class="btn-check" name="options-outlined" id="success-outlined"
                                 autocomplete="off" checked>
@@ -209,26 +221,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
 
-                <button class="border-0 rounded pay-btn mt-3 shadow-sm text-white w-100 py-2" type="submit">Pay Now</button>
 
-                <?php if ($error_message): ?>
-                    <div class="alert alert-danger mt-4" role="alert">
-                        <?php echo $error_message; ?>
-                    </div>
-                <?php endif; ?>
+                <button class="border-0 rounded pay-btn mt-3 shadow-sm text-white w-100 py-2" type="submit">Pay
+                    Now</button>
 
-                <?php if ($success_message): ?>
-                    <div class="alert alert-success mt-4" role="alert">
-                        <?php echo $success_message; ?>
-                    </div>
-                <?php endif; ?>
             </form>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"></script>
-    <script>document.querySelector('form').addEventListener('submit', function () {
+    <script>document.querySelector('.payment-form').addEventListener('submit', function () {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             const orderDetails = JSON.parse(sessionStorage.getItem('orderDetails')) || {};
 

@@ -4,6 +4,12 @@ require_once '../db.php';
 
 $id = $_SESSION['userid'];
 
+if ($_SESSION['role'] !== 'admin') {
+    header("Location: /pets");
+    exit(); // Ensure the script stops here after redirection
+}
+
+
 // Check for status update request
 if (isset($_POST['petID']) && isset($_POST['current_status'])) {
     $petID = $_POST['petID'];
@@ -36,6 +42,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
+
     <style>
         .pet-card-image {
             width: 100%;

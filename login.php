@@ -12,7 +12,7 @@ if (isset($_POST['login-btn'])) {
         // Check if the user status is 'blocked' or inactive
         if ($data['status'] != 'active') {
             // If the user is blocked or inactive, show an alert and exit
-            echo "<div class='alert alert-danger mb-0 mt-3'>User is blocked</div>";
+            echo "<div class='alert alert-danger mb-0 mt-3 mb-3'>User is blocked</div>";
         }
 
         if ($data['role'] == 'admin' && $data['status'] === 'active') {
@@ -41,7 +41,7 @@ if (isset($_POST['login-btn'])) {
         //     header("location:/index.php");
         // }
     } else {
-        echo "<div class='alert alert-danger mb-0 mt-3'>Invalid Email or Password</div>";
+        echo "<div class='alert alert-danger mb-0 mt-3 mb-3'>Invalid Email or Password</div>";
 
     }
 }
