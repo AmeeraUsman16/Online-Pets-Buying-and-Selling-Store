@@ -105,8 +105,8 @@ $db->close();
                 <?php foreach ($order['pets'] as $pet) { ?>
                   <div class="col-12 col-md-6">
                     <a href='/pets/pet-details.php?petID=<?php echo $pet['id']; ?>' class="d-flex pet-item bg-grayv1 p-1 rounded underline-0" style='text-decoration: none'>
-                      <div style="max-width:200px; max-height:200px" class="p-2">
-                        <img class="rounded card-img-top pet-card-image p-0" src="./uploads/<?php echo $pet['image']; ?>"
+                      <div style="max-width:200px; max-height:250px" class="p-2">
+                        <img class="rounded card-img-top pet-card-image p-0"   src="./uploads/<?php echo $pet['image']; ?>"
                           alt="Pet Image">
                       </div>
                       <div class="pl-5 p-2 d-flex justify-content-between w-100">
@@ -134,6 +134,6 @@ $db->close();
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
         </script>
 
+<?php require_once './footer.php'; //Include Footer ?>
 </body>
-
 </html>

@@ -115,7 +115,7 @@ $totalRevenue = $revenueResult->fetch_assoc()['totalRevenue'];
         <h2 class="text-secondary">Dashboard</h2>
 
         <div class="row mt-5 rounded bg-light w-25 p-3">
-            <div class="col-sm ">Total Revenue: <p class='fs-5 d-inline text-accent ps-1'> Rs. <?= $totalRevenue ?? 0 ?>
+            <div class="col-sm ">Total Sales: <p class='fs-5 d-inline text-accent ps-1'> Rs. <?= $totalRevenue ?? 0 ?>
                 </p>
             </div>
         </div>

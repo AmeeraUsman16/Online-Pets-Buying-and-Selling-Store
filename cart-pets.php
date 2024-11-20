@@ -65,7 +65,7 @@ $id = $_SESSION['userid'];
         <table class="table" id="cart-table">
             <thead>
                 <tr>
-                    <th scope="col" class="text-secondary fs-6 fw-semibold detail">Petd</th>
+                    <th scope="col" class="text-secondary fs-6 fw-semibold detail">Pets</th>
                     <th scope="col" class="text-secondary fs-6 fw-semibold detail">Detail</th>
                     <th scope="col" class="text-secondary fs-6 fw-semibold detail">Total</th>
                 </tr>
@@ -75,7 +75,7 @@ $id = $_SESSION['userid'];
             </tbody>
         </table>
         <div class='mb-5' style="max-width:280px;max-height:260px;margin-left:650px">
-            <p class="text-secondary detail">Subtotal: <span id="subtotal">$0.00</span></p>
+            <p class="text-secondary detail">Subtotal: <span id="subtotal">Rs0.00</span></p>
             <p style="font-size: 12px;" class="text-secondary">Taxes and shipping calculated at checkout</p>
             <a href='order-details.php' class="btn text-white py-2  " role="button" style="margin-left: 100px;border-radius: 8px;background: #da70d6"
                 id="checkout-button">
@@ -109,7 +109,7 @@ $id = $_SESSION['userid'];
                             <span class="fs-5 text-secondary">${item.type}</span><br>
                             <span class="text-danger fs-7">${item.breed}</span><br>
                         </td>
-                        <td class="text-secondary detail">$${item.price}</td>
+                        <td class="text-secondary detail">Rs.${item.price}</td>
                         <td>
                             <button 
                                 class="bg-transparent p-0 border-0 mt-1"
@@ -125,7 +125,7 @@ $id = $_SESSION['userid'];
                         // Calculate subtotal
                         subtotal += parseFloat(item.price);
                     });
-                    subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+                    subtotalElement.textContent = `Rs.${subtotal.toFixed(2)}`;
                 } else {
                     cartTableBody.innerHTML = '<tr><td colspan="4" class="text-center">No pets in your cart.</td></tr>';
                 }

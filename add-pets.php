@@ -64,16 +64,24 @@ if (isset($_POST['add-btn'])) {
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
         </script>
 
+<style>
+        .div-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
+      
+    </style>
 </head>
 
 <body style="background-color: rgb(245, 248, 250);">
     <?php require_once 'nav.php'; //Include Navigation bar ?>
-    <div class="container mt-5">
-        <div class="container div-form text-secondary pt-1 mt-4">
+    <div class="container mt-5 ">
+        <div class="container text-secondary  mt-4 ">
             <h3 class='text-grayv1'>Add A Pet</h3>
             <!-- Add enctype="multipart/form-data" to enable file uploads -->
-            <form action="" method="post" enctype="multipart/form-data" class='mt-4'>
+            <form action="" method="post" enctype="multipart/form-data" class='mt-4 '>
                 <div class="form-floating mb-3">
                     <input required="true" type="text" name="petType" class="form-control" id="floatingInputType"
                         style="border: none; border: 1px solid #cdcdcd; border-radius:8px; max-width: 700px;"
