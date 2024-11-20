@@ -11,7 +11,7 @@ $hasSearchQuery = !empty($searchQuery);
     style="margin-top:-10px; z-index: 100;height:70px">
     <div class="container-fluid py-2 sm-py-0" style="background-color: white;">
         <?php if ($role === 'admin'): ?>
-            <a class="navbar-brand" href="../index.php" style="font-weight: bold; padding:20px; border-radius: 5px;">
+            <a class="navbar-brand" href="/pets/index.php" style="font-weight: bold; padding:20px; border-radius: 5px;">
                 Pet's Heaven <img src="/pets/assets/images/petLogo.jpg" style="height:40px" alt="pet Logo">
             </a>
         <?php else: ?>
