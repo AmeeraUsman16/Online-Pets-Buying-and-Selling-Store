@@ -11,8 +11,8 @@ $hasSearchQuery = !empty($searchQuery);
     style="margin-top:-10px; z-index: 100;height:70px">
     <div class="container-fluid py-2 sm-py-0" style="background-color: white;">
         <?php if ($role === 'admin'): ?>
-            <a class="navbar-brand" href="admin-dashboard.php" style="font-weight: bold; padding:20px; border-radius: 5px;">
-                Pet's Heaven <img src="../assets/images/petLogo.jpg" style="height:40px" alt="pet Logo">
+            <a class="navbar-brand" href="../index.php" style="font-weight: bold; padding:20px; border-radius: 5px;">
+                Pet's Heaven <img src="/pets/assets/images/petLogo.jpg" style="height:40px" alt="pet Logo">
             </a>
         <?php else: ?>
             <a class="navbar-brand" href="index.php" style="font-weight: bold; padding:20px; border-radius: 5px;">
@@ -57,11 +57,11 @@ $hasSearchQuery = !empty($searchQuery);
                 <?php if ($role === 'admin'): ?>
 
                     <li class="nav-item">
-                        <a class="nav-link fs-accent px-4 py-2" href="view-user.php"> View Users</a>
+                        <a class="nav-link fs-accent px-4 py-2" href="/pets/admin/view-user.php"> View Users</a>
 
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link fs-accent px-4 py-2" href="view-pets.php"> View Pets</a>
+                        <a class="nav-link fs-accent px-4 py-2" href="/pets/admin/view-pets.php"> View Pets</a>
 
                     </li>
 
